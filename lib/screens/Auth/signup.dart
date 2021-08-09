@@ -7,11 +7,12 @@ import 'components/signup_components.dart';
 class SignUpScreen extends StatelessWidget {
   static const routeName = '/signup-screen';
 
+  static final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     String _name, _username, _email, _password, _contact;
-    static final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
     Widget _inputFields(fieldName, field) {
       return Container(
