@@ -237,10 +237,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: size.width * 0.44,
                   decoration: BoxDecoration(
                     color: Colors.black,
-
-//                    image: DecorationImage(
-//                    image: AssetImage()
+                    image: DecorationImage(image: AssetImage("assets/images")
 //                  ),
+                        ),
                   ),
                 ),
               ),
