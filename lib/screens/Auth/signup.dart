@@ -2,7 +2,7 @@ import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'components/signup_components.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup-screen';
@@ -12,7 +12,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-//  String _name, _username, _email, _password, _contact;
   String _name;
   String _username;
   String _email;
@@ -328,12 +327,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Container(
                   height: size.height * 0.25,
                   width: size.width * 0.44,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-
-//                    image: DecorationImage(
-//                    image: AssetImage()
-//                  ),
+                  child: SvgPicture.asset(
+//                    "assets/svg/undraw_my_app_re_gxtj.svg",
+//                    "assets/svg/undraw_my_files_swob.svg",
+                    "assets/svg/undraw_Reading_re_29f8.svg",
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

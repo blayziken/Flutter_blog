@@ -1,6 +1,7 @@
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/login_components.dart';
 
@@ -235,11 +236,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   height: size.height * 0.25,
                   width: size.width * 0.44,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    image: DecorationImage(image: AssetImage("assets/images")
-//                  ),
-                        ),
+                  child: SvgPicture.asset(
+//                    "assets/svg/undraw_my_app_re_gxtj.svg",
+//                    "assets/svg/undraw_my_files_swob.svg",
+                    "assets/svg/undraw_Reading_re_29f8.svg",
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
