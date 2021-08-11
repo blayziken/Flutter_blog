@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String _username;
   String _password;
+  bool showPassword = true;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -36,21 +37,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildPassword() {
-    bool showPassword = true;
     return Container(
       height: 35,
       child: TextFormField(
         decoration: InputDecoration(
-          suffixIcon: InkWell(
-            child: Icon(
-              Icons.remove_red_eye,
+          suffixIcon: IconButton(
+            icon: Icon(
+              showPassword ? Icons.visibility_off : Icons.visibility,
               color: kTextLoginPageColor,
             ),
-            onTap: () {
-              print('a');
-              setState(() {
-                showPassword = false;
-              });
+            onPressed: () {
+              setState(
+                () {
+                  showPassword = !showPassword;
+                },
+              );
             },
           ),
         ),

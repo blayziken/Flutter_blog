@@ -2,6 +2,8 @@ import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
 import 'package:flutter/material.dart';
 
+import 'apitest.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: APITest(),
       routes: {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),

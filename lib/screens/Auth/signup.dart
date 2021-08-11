@@ -17,13 +17,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _email;
   String _password;
   String _contact;
+  bool showPassword = true;
 
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
 
   Widget _buildName() {
     return Container(
       height: 30,
       child: TextFormField(
+        controller: _nameController,
         decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
@@ -42,6 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       height: 30,
       child: TextFormField(
+        controller: _usernameController,
         decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
@@ -60,10 +68,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       height: 30,
       child: TextFormField(
+        controller: _emailController,
         decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Email is required';
+          }
+          if (!value.contains('@')) {
+            return 'Invalid Email';
           }
           return null;
         },
@@ -78,6 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       height: 30,
       child: TextFormField(
+        controller: _passwordController,
         decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
@@ -93,20 +106,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _buildPassword() {
-    bool showPassword = true;
     return Container(
       height: 30,
       child: TextFormField(
+        controller: _contactController,
         decoration: InputDecoration(
-//            hintText: 'Password',
-//            hintStyle: TextStyle(fontSize: 13),
-          suffixIcon: InkWell(
-            child: Icon(
-              Icons.remove_red_eye,
+          suffixIcon: IconButton(
+            icon: Icon(
+              showPassword ? Icons.visibility_off : Icons.visibility,
               color: kTextLoginPageColor,
             ),
-            onTap: () {
-              print('a');
+            onPressed: () {
+              setState(() {
+                showPassword = !showPassword;
+              });
             },
           ),
         ),
@@ -115,6 +128,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validator: (String value) {
           if (value.isEmpty) {
             return 'Password is required';
+          }
+          if (value.length < 8) {
+            return 'Password must have 8 or more characters';
           }
           return null;
         },
@@ -271,11 +287,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                         _formKey2.currentState.save();
 
-                                        print(_name);
-                                        print(_email);
-                                        print(_username);
-                                        print(_password);
-                                        print(_contact);
+                                        print(_nameController.text);
+                                        print(_emailController.text);
+                                        print(_usernameController.text);
+                                        print(_passwordController.text);
+                                        print(_contactController.text);
                                       },
                                     )),
                                 customYMargin(10),
