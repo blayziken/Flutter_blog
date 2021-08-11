@@ -16,6 +16,8 @@ dependencies:
   flutter_svg:
   http:
   logger:
+  flutter_facebook_login: ^3.0.0
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:

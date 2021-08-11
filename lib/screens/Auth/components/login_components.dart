@@ -5,9 +5,12 @@ class SocialButton extends StatelessWidget {
   const SocialButton({
     Key key,
     this.imagePath,
+    this.onTap,
   }) : super(key: key);
 
   final String imagePath;
+  final Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,9 +31,7 @@ class SocialButton extends StatelessWidget {
           maxRadius: 23,
         ),
       ),
-      onTap: () {
-        print('Social');
-      },
+      onTap: onTap,
     );
   }
 }

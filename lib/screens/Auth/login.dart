@@ -1,6 +1,7 @@
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/login_components.dart';
@@ -17,7 +18,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String _password;
   bool showPassword = true;
 
+  // TextField Form Key Controllers
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Auth Variables
+  bool _isLogin = false;
+  final facebookLogin = FacebookLogin()
+
+  onFBLogin() async {};
 
   Widget _buildUserName() {
     return Container(
@@ -220,10 +230,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   SocialButton(
                                     imagePath: 'assets/svg/facebook_logo2.svg',
+                                    onTap: () {},
                                   ),
                                   customXMargin(30),
                                   SocialButton(
                                     imagePath: 'assets/svg/instagram_logo2.svg',
+                                    onTap: () {},
                                   ),
                                 ],
                               ),

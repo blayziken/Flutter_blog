@@ -77,3 +77,6 @@ class _APITestState extends State<APITest> {
 //router.delete('/deleteUser', authController.protect, userController.deleteUser);
 //
 //router.get('/:userName', authController.protect, userController.getUser);
+//
+//// To check if username is unique
+//router.get('/checkUsername/:userName', userController.checkUsername);

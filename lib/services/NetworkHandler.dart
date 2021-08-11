@@ -8,16 +8,26 @@ class NetworkHandler {
 //    return baseURL + url;
 //  }
 
+  Future get(String url) async {
+    var callUrl = Uri.parse('$baseURL/$url');
+
+    var response = await http.get(callUrl);
+    try {
+      return json.decode(response.body);
+    } catch (err) {
+      print(err);
+    }
+  }
+
   Future<dynamic> postData(String url, Map<String, String> body) async {
     var callUrl = Uri.parse('$baseURL/$url');
 
-    var response = await http.post(callUrl, body: body);
+    var response = await http.post(callUrl,
+        body: json.encode(body), headers: {"Content-type": "application/json"});
 
     try {
-      print('------------');
       print(response.body);
-      print('------------');
-      return jsonDecode(response.body);
+      return (response.body);
     } catch (err) {
       print(err);
     }
