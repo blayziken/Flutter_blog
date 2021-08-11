@@ -12,7 +12,6 @@ class _APITestState extends State<APITest> {
     // TODO: implement initState
 
     super.initState();
-    getAPIData();
   }
 
   void getAPIData() async {
