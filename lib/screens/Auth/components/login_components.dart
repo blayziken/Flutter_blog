@@ -37,19 +37,14 @@ class SocialButton extends StatelessWidget {
 }
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key key,
-    @required GlobalKey<FormState> formKey,
-    @required String username,
-    @required String password,
-  })  : _formKey = formKey,
-        _username = username,
-        _password = password,
-        super(key: key);
+  final Function onTap;
+  final bool showSpinner;
 
-  final GlobalKey<FormState> _formKey;
-  final String _username;
-  final String _password;
+  const LoginButton({Key key, this.onTap, this.showSpinner}) : super(key: key);
+
+//  final GlobalKey<FormState> _formKey;
+//  final String _username;
+//  final String _password;
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +55,21 @@ class LoginButton extends StatelessWidget {
           color: Colors.blueGrey[900],
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: Center(
-          child: Text(
-            'Login',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 25,
-              letterSpacing: 2,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        child: showSpinner
+            ? CircularProgressIndicator()
+            : Center(
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 25,
+                    letterSpacing: 2,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
       ),
-      onTap: () {
-        if (!_formKey.currentState.validate()) {
-          return;
-        }
-
-        _formKey.currentState.save();
-
-        print(_username);
-        print(_password);
-      },
+      onTap: onTap,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,22 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _username;
-  String _password;
+//  String _username;
+//  String _password;
   bool showPassword = true;
 
   // TextField Form Key Controllers
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // API Network Handler Call
+  NetworkHandler networkHandler = NetworkHandler();
+
+  // User validation variables
+  String errorText;
+  bool validate = true;
+  bool spinner = false;
 
   // Auth Variables
   bool _isLogin = false;
@@ -59,87 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Widget _buildUserName() {
-    return Container(
-      height: 35,
-      child: TextFormField(
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Username is required';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          _username = value;
-        },
-      ),
-    );
-  }
-
-  Widget _buildPassword() {
-    return Container(
-      height: 35,
-      child: TextFormField(
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            icon: Icon(
-              showPassword ? Icons.visibility_off : Icons.visibility,
-              color: kTextLoginPageColor,
-            ),
-            onPressed: () {
-              setState(
-                () {
-                  showPassword = !showPassword;
-                },
-              );
-            },
-          ),
-        ),
-        keyboardType: TextInputType.visiblePassword,
-        obscureText: showPassword,
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Password is required';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-          _password = value;
-        },
-      ),
-    );
-  }
-
-  Widget _buildLoginForm() {
-    return Form(
-      key: _formKey,
-      child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Username',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-              color: kTextLoginPageColor,
-            ),
-          ),
-          _buildUserName(),
-          customYMargin(20),
-          Text(
-            'Password',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-              color: kTextLoginPageColor,
-            ),
-          ),
-          _buildPassword(),
-        ],
-      ),
-    );
-  }
+  // NODE API LOGIN IMPLEMENTATION
 
   @override
   Widget build(BuildContext context) {
@@ -197,9 +126,49 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               customYMargin(20),
                               LoginButton(
-                                  formKey: _formKey,
-                                  username: _username,
-                                  password: _password),
+                                showSpinner: spinner,
+//                                formKey: _formKey,
+//                                username: _usernameController.text,
+//                                password: _passwordController.text,
+
+                                onTap: () async {
+                                  setState(() {
+                                    spinner = true;
+                                  });
+                                  Map<String, String> body = {
+                                    "username": _usernameController.text,
+                                    "password": _passwordController.text,
+                                  };
+
+                                  var response = await networkHandler.postData(
+                                      'users/login', body);
+
+                                  if (response.statusCode == 200 ||
+                                      response.statusCode == 201) {
+                                    Map<String, dynamic> output =
+                                        json.decode(response.body);
+
+                                    print(output['token']);
+                                    setState(() {
+                                      validate = true;
+                                      spinner = false;
+                                    });
+                                  } else {
+                                    String output = json.decode(response.body);
+                                    print(
+                                        '--------- In the else block ---------');
+                                    print(output);
+                                    print(
+                                        '--------- In the else block ---------');
+
+                                    setState(() {
+                                      validate = false;
+                                      errorText =
+                                          'Username or Password is incorrect';
+                                    });
+                                  }
+                                },
+                              ),
                               customYMargin(20),
                               Center(
                                 child: Row(
@@ -308,6 +277,117 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // TextField Widgets
+  Widget _buildUserName() {
+    return Container(
+      height: 35,
+      child: TextFormField(
+        controller: _usernameController,
+        decoration: InputDecoration(
+          errorText: validate ? null : errorText,
+        ),
+//        validator: (String value) {
+//          if (value.isEmpty) {
+//            return 'Username is required';
+//          }
+//          return null;
+//        },
+        onSaved: (String value) {
+//          _username = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildPassword() {
+    return Container(
+      height: 35,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 15,
+            child: TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+
+//              suffixIcon: IconButton(
+//                icon: Icon(
+//                  showPassword ? Icons.visibility_off : Icons.visibility,
+//                  color: kTextLoginPageColor,
+//                ),
+//                onPressed: () {
+//                  setState(
+//                    () {
+//                      showPassword = !showPassword;
+//                    },
+//                  );
+//                },
+//              ),
+                  ),
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: showPassword,
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'Password is required';
+                }
+                return null;
+              },
+              onSaved: (String value) {
+//          _password = value;
+              },
+            ),
+          ),
+          Expanded(
+            child: IconButton(
+              icon: Icon(
+                showPassword ? Icons.visibility_off : Icons.visibility,
+                color: kTextLoginPageColor,
+              ),
+              onPressed: () {
+                setState(
+                  () {
+                    showPassword = !showPassword;
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+//                            mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Username',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: kTextLoginPageColor,
+            ),
+          ),
+          _buildUserName(),
+          customYMargin(20),
+          Text(
+            'Password',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: kTextLoginPageColor,
+            ),
+          ),
+          _buildPassword(),
+        ],
       ),
     );
   }

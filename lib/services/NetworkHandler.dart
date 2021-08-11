@@ -19,18 +19,14 @@ class NetworkHandler {
     }
   }
 
-  Future<dynamic> postData(String url, Map<String, String> body) async {
+  Future<http.Response> postData(String url, Map<String, String> body) async {
     var callUrl = Uri.parse('$baseURL/$url');
 
     var response = await http.post(callUrl,
         body: json.encode(body), headers: {"Content-type": "application/json"});
 
-    try {
-      print(response.body);
-      return (response.body);
-    } catch (err) {
-      print(err);
-    }
+    print(response.body);
+    return (response);
   }
 //    if (response.statusCode == 200) {
 //      String data = response.body;
