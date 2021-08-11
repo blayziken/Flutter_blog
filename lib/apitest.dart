@@ -52,13 +52,13 @@ class _APITestState extends State<APITest> {
               color: Colors.green,
               child: Center(
                 child: Text(
-                  'Click',
+                  'Next Page',
                   style: TextStyle(fontSize: 50),
                 ),
               ),
             ),
             onTap: () {
-//              print('AA');
+              print('AA');
 //              getAPIData();
             },
           ),

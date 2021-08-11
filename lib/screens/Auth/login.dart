@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import '../../apitest.dart';
 import 'components/login_components.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Auth Variables
   bool _isLogin = false;
+
+  // FACEBOOK LOGIN IMPLEMENTATION
   Map data;
   final facebookLogin = FacebookLogin();
 
@@ -258,7 +260,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   SocialButton(
                                     imagePath: 'assets/svg/facebook_logo2.svg',
-                                    onTap: onFBLogin(),
+//                                    onTap: () async {
+//                                      try {
+//                                        await onFBLogin();
+//                                      } catch (err) {
+//                                        print('khfjdf------fdf-d--');
+//                                        print(err);
+//                                        return;
+//                                      }
+//                                      Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                          builder: (context) => APITest(),
+//                                        ),
+//                                      );
+//                                    },
                                   ),
                                   customXMargin(30),
                                   SocialButton(
