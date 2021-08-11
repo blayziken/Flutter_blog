@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialButton extends StatelessWidget {
   const SocialButton({
     Key key,
+    this.imagePath,
   }) : super(key: key);
 
+  final String imagePath;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,7 +24,7 @@ class SocialButton extends StatelessWidget {
         ),
         child: CircleAvatar(
           backgroundColor: Colors.red,
-//                                backgroundImage: ,
+          child: SvgPicture.asset(imagePath),
           maxRadius: 23,
         ),
       ),

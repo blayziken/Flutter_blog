@@ -1,3 +1,4 @@
+import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _contact;
   bool showPassword = true;
 
+  NetworkHandler networkHandler = NetworkHandler();
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -38,9 +40,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
           return null;
         },
-        onSaved: (String value) {
-          _name = value;
-        },
+//        onSaved: (String value) {
+//          _name = value;
+//        },
       ),
     );
   }
@@ -79,9 +81,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
           return null;
         },
-        onSaved: (String value) {
-          _email = value;
-        },
+//        onSaved: (String value) {
+//          _email = value;
+//        },
       ),
     );
   }
@@ -258,42 +260,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _buildSignupForm(),
                                 customYMargin(30),
                                 Expanded(
-                                    flex: 0,
-                                    child: GestureDetector(
-                                      child: Container(
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                          color: Colors.blueGrey[900],
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            'CREATE ACCOUNT',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 25,
-                                              letterSpacing: 2,
-                                              color: Colors.white,
-                                            ),
+                                  flex: 0,
+                                  child: GestureDetector(
+                                    child: Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blueGrey[900],
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'CREATE ACCOUNT',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 25,
+                                            letterSpacing: 2,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       ),
-                                      onTap: () {
-                                        if (!_formKey2.currentState
-                                            .validate()) {
-                                          return;
-                                        }
+                                    ),
+                                    onTap: () {
+                                      if (!_formKey2.currentState.validate()) {
+                                        return;
+                                      }
 
-                                        _formKey2.currentState.save();
+                                      _formKey2.currentState.save();
 
-                                        print(_nameController.text);
-                                        print(_emailController.text);
-                                        print(_usernameController.text);
-                                        print(_passwordController.text);
-                                        print(_contactController.text);
-                                      },
-                                    )),
+                                      Map<String, String> input = {
+                                        "name": _nameController.text,
+                                        "username": _usernameController.text,
+                                        "email": _emailController.text,
+                                        "password": _passwordController.text,
+                                        "contactNumber":
+                                            _contactController.text,
+                                      };
+
+                                      networkHandler.postData(
+                                          'users/signup', input);
+                                      print(
+                                          'This is from sign up screen after api call');
+
+//                                        print(_nameController.text);
+//                                        print(_emailController.text);
+//                                        print(_usernameController.text);
+//                                        print(_passwordController.text);
+//                                        print(_contactController.text);
+                                    },
+                                  ),
+                                ),
                                 customYMargin(10),
                                 Expanded(
                                   flex: 0,

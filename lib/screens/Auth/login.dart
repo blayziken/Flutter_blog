@@ -218,9 +218,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SocialButton(),
+                                  SocialButton(
+                                    imagePath: 'assets/svg/facebook_logo2.svg',
+                                  ),
                                   customXMargin(30),
-                                  SocialButton(),
+                                  SocialButton(
+                                    imagePath: 'assets/svg/instagram_logo2.svg',
+                                  ),
                                 ],
                               ),
                             ],

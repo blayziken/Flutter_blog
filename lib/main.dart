@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: APITest(),
+      home: LoginScreen(),
       routes: {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),
