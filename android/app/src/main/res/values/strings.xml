@@ -3,11 +3,11 @@
     <string name="app_name">BlogApp</string>
 
     <!-- Replace "000000000000" with your Facebook App ID here. -->
-    <string name="facebook_app_id">BlogApp</string>
+    <string name="facebook_app_id">4383105541748809</string>
 
     <!--
       Replace "000000000000" with your Facebook App ID here.
       **NOTE**: The scheme needs to start with `fb` and then your ID.
     -->
-    <string name="fb_login_protocol_scheme">fb000000000000</string>
+    <string name="fb_login_protocol_scheme">fb4383105541748809</string>
 </resources>

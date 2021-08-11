@@ -36,7 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
-        final response = await http.get("https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token");
+        final response = await http.get(
+            "https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token");
         final responseData = jsonDecode(response.body);
         setState(() {
           _isLogin = true;
@@ -45,16 +46,16 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       case FacebookLoginStatus.cancelledByUser:
         setState(() {
-          _isLogin = true;
+          _isLogin = false;
         });
         break;
       case FacebookLoginStatus.error:
         setState(() {
-          _isLogin = true;
+          _isLogin = false;
         });
         break;
     }
-  };
+  }
 
   Widget _buildUserName() {
     return Container(
@@ -257,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   SocialButton(
                                     imagePath: 'assets/svg/facebook_logo2.svg',
-                                    onTap: () {},
+                                    onTap: onFBLogin(),
                                   ),
                                   customXMargin(30),
                                   SocialButton(
