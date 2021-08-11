@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:http/http.dart' as http;
 import 'components/login_components.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,9 +27,34 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Auth Variables
   bool _isLogin = false;
-  final facebookLogin = FacebookLogin()
+  Map data;
+  final facebookLogin = FacebookLogin();
 
-  onFBLogin() async {};
+  onFBLogin() async {
+    final result = await facebookLogin.logIn(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final response = await http.get("https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token");
+        final responseData = jsonDecode(response.body);
+        setState(() {
+          _isLogin = true;
+          data = responseData;
+        });
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        setState(() {
+          _isLogin = true;
+        });
+        break;
+      case FacebookLoginStatus.error:
+        setState(() {
+          _isLogin = true;
+        });
+        break;
+    }
+  };
 
   Widget _buildUserName() {
     return Container(
