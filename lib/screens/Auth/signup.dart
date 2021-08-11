@@ -288,7 +288,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                       _formKey2.currentState.save();
 
-                                      Map<String, String> input = {
+                                      Map<String, String> body = {
                                         "name": _nameController.text,
                                         "username": _usernameController.text,
                                         "email": _emailController.text,
@@ -298,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       };
 
                                       networkHandler.postData(
-                                          'users/signup', input);
+                                          'users/signup', body);
                                       print(
                                           'This is from sign up screen after api call');
 

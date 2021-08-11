@@ -59,7 +59,7 @@ class _APITestState extends State<APITest> {
             ),
             onTap: () {
 //              print('AA');
-              getAPIData();
+//              getAPIData();
             },
           ),
         ),
