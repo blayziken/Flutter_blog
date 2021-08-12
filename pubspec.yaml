@@ -18,7 +18,7 @@ dependencies:
   logger:
   flutter_facebook_login: ^3.0.0
   font_awesome_flutter:
-  flutter_secure_storage:
+  flutter_secure_storage: ^3.3.3
 
 dev_dependencies:
   flutter_test:
