@@ -25,7 +25,7 @@ class NetworkHandler {
     var response = await http.post(callUrl,
         body: json.encode(body), headers: {"Content-type": "application/json"});
 
-    print(response.body);
+//    print(response.body);
     return (response);
   }
 //    if (response.statusCode == 200) {
