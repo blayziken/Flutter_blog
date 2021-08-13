@@ -1,15 +1,42 @@
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
+import 'package:blog_app/screens/Home.dart';
 import 'package:flutter/material.dart';
-
-import 'apitest.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Widget currentScreen = LoginScreen();
+  final storage = FlutterSecureStorage();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLogin();
+  }
+
+  void checkLogin() async {
+    String token = await storage.read(key: 'token');
+    if (token != null) {
+      setState(() {
+        currentScreen = HomeScreen();
+      });
+    } else {
+      setState(() {
+        currentScreen = LoginScreen();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +46,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: currentScreen,
       routes: {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),
