@@ -7,7 +7,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 //import '../../apitest.dart';
-import '../Home.dart';
+import '../Home/Home.dart';
 import 'components/login_components.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -49,8 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
-        final response = await http.get(
-            "https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token");
+        final response = await http.get("https://graph.facebook.com/v2.12/me?fields=name,picture,email&access_token=$token");
         final responseData = jsonDecode(response.body);
         setState(() {
           _isLogin = true;
@@ -104,14 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'Log-in',
-                          style: TextStyle(
-                              fontSize: 45,
-                              fontWeight: FontWeight.w900,
-                              color: kTextLoginPageColor),
+                          style: TextStyle(fontSize: 45, fontWeight: FontWeight.w900, color: kTextLoginPageColor),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 20.0, top: 20.0, right: 20.0),
+                          padding: EdgeInsets.only(left: 20.0, top: 20.0, right: 20.0),
                           child: Column(
                             children: [
                               _buildLoginForm(),
@@ -140,17 +135,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     "password": _passwordController.text,
                                   };
 
-                                  var response = await networkHandler.postData(
-                                      'users/login', body);
+                                  var response = await networkHandler.postData('users/login', body);
 
-                                  if (response.statusCode == 200 ||
-                                      response.statusCode == 201) {
-                                    Map<String, dynamic> output =
-                                        json.decode(response.body);
+                                  if (response.statusCode == 200 || response.statusCode == 201) {
+                                    Map<String, dynamic> output = json.decode(response.body);
 
                                     print(output['token']);
-                                    await storage.write(
-                                        key: "token", value: output['token']);
+                                    await storage.write(key: "token", value: output['token']);
 
                                     Navigator.pushAndRemoveUntil(
                                         context,
@@ -165,16 +156,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     });
                                   } else {
                                     String output = json.decode(response.body);
-                                    print(
-                                        '--------- In the else block ---------');
+                                    print('--------- In the else block ---------');
                                     print(output);
-                                    print(
-                                        '--------- In the else block ---------');
+                                    print('--------- In the else block ---------');
 
                                     setState(() {
                                       validate = false;
-                                      errorText =
-                                          'Username or Password is incorrect';
+                                      errorText = 'Username or Password is incorrect';
                                     });
                                   }
                                 },
@@ -202,8 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/signup-screen');
+                                        Navigator.pushNamed(context, '/signup-screen');
                                       },
                                     ),
                                   ],
@@ -211,8 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               customYMargin(40),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     height: 1.5,

@@ -8,7 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Home.dart';
+import '../Home/Home.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup-screen';

@@ -1,6 +1,6 @@
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
-import 'package:blog_app/screens/Home.dart';
+import 'file:///C:/Users/Administrator/AndroidStudioProjects/blog_app/lib/screens/Home/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
