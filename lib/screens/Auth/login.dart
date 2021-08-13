@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import '../../apitest.dart';
+//import '../../apitest.dart';
+import '../Home.dart';
 import 'components/login_components.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login-screen';
@@ -69,6 +71,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // NODE API LOGIN IMPLEMENTATION
+  // Storing token:
+  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -127,10 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               customYMargin(20),
                               LoginButton(
                                 showSpinner: spinner,
-//                                formKey: _formKey,
-//                                username: _usernameController.text,
-//                                password: _passwordController.text,
-
                                 onTap: () async {
                                   setState(() {
                                     spinner = true;
@@ -149,6 +149,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         json.decode(response.body);
 
                                     print(output['token']);
+                                    await storage.write(
+                                        key: "token", value: output['token']);
+
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeScreen(),
+                                        ),
+                                        (route) => false);
+
                                     setState(() {
                                       validate = true;
                                       spinner = false;

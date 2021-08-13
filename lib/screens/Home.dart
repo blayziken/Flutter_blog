@@ -11,11 +11,11 @@ class HomeScreen extends StatelessWidget {
           child: GestureDetector(
             child: Container(
               height: 50,
-              width: 150,
+//              width: 150,
               color: Colors.green,
               child: Center(
                 child: Text(
-                  'Welcome to the Bloggy',
+                  'Welcome to Bloggy',
                   style: TextStyle(fontSize: 50),
                 ),
               ),
