@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../Home.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup-screen';
@@ -50,8 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     print(usernameText);
 
-    var response =
-        await networkHandler.get('users/checkUsername/$usernameText');
+    var response = await networkHandler.get('users/checkUsername/$usernameText');
 
     if (response["status"]) {
       setState(() {
@@ -72,7 +76,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     print('--------------------------------------');
   }
 
-//
+// Storing token:
+  final storage = FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -98,22 +104,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(top: 30.0, right: 30.0, left: 30.0),
+                    padding: EdgeInsets.only(top: 30.0, right: 30.0, left: 30.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Sign-up',
-                          style: TextStyle(
-                              fontSize: 45,
-                              fontWeight: FontWeight.w900,
-                              color: kTextLoginPageColor),
+                          style: TextStyle(fontSize: 45, fontWeight: FontWeight.w900, color: kTextLoginPageColor),
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(
-                                left: 20.0, right: 20.0, top: 20.0),
+                            padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
                             child: Column(
                               children: [
                                 _buildSignupForm(),
@@ -127,8 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             height: 60,
                                             decoration: BoxDecoration(
                                               color: Colors.blueGrey[900],
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
+                                              borderRadius: BorderRadius.circular(20.0),
                                             ),
                                             child: Center(
                                               child: Text(
@@ -149,19 +149,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                       await checkUser();
 
-                                      if (_formKey2.currentState.validate() &&
-                                          validate) {
+                                      if (_formKey2.currentState.validate() && validate) {
                                         Map<String, String> body = {
                                           "name": _nameController.text,
                                           "username": _usernameController.text,
                                           "email": _emailController.text,
                                           "password": _passwordController.text,
-                                          "contactNumber":
-                                              _contactController.text,
+                                          "contactNumber": _contactController.text,
                                         };
 
-                                        await networkHandler.postData(
-                                            'users/signup', body);
+                                        //Signup route
+                                        var responseRegister = await networkHandler.postData('users/signup', body);
+
+                                        print(responseRegister.statusCode);
+
+                                        if (responseRegister.statusCode == 200 || responseRegister.statusCode == 201) {
+                                          print('register ok');
+                                          Map<String, String> data = {
+                                            "username": _usernameController.text,
+                                            "password": _passwordController.text,
+                                          };
+
+                                          // If all is well, then login
+                                          var response = await networkHandler.postData('users/login', data);
+
+                                          if (response.statusCode == 200 || response.statusCode == 201) {
+                                            Map<String, dynamic> output = json.decode(response.body);
+
+                                            print(output['token']);
+                                            await storage.write(key: "token", value: output['token']);
+
+                                            setState(() {
+                                              validate = true;
+                                              spinner = false;
+                                            });
+
+                                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+                                          }
+                                        } else {
+//                                          Scaffold.of(context).showSnackBar(
+//                                            SnackBar(
+//                                              content: Text("Network Error"),
+//                                            ),
+//                                          );
+                                          print('--------- In the else block ---------');
+                                        }
 
                                         setState(() {
                                           spinner = false;
@@ -182,8 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   flex: 0,
                                   child: Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'Already have an account ?',
@@ -203,8 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             ),
                                           ),
                                           onTap: () {
-                                            Navigator.pushNamed(
-                                                context, '/login-screen');
+                                            Navigator.pushNamed(context, '/login-screen');
                                           },
                                         ),
                                       ],
