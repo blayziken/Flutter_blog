@@ -187,6 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
                                           }
                                         } else {
+                                          ///TODO SIGNUP ERROR SNACKBAR
 //                                          Scaffold.of(context).showSnackBar(
 //                                            SnackBar(
 //                                              content: Text("Network Error"),

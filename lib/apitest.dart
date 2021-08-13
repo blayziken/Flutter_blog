@@ -9,23 +9,14 @@ class APITest extends StatefulWidget {
 class _APITestState extends State<APITest> {
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
   void getAPIData() async {
-    Map<String, String> input = {
-      "username": "testApi",
-      "email": "apitesting@email.com",
-      "password": "apitest123456",
-      "name": "API Test",
-      "contactNumber": "7259842548"
-    };
+    Map<String, String> input = {"username": "testApi", "email": "apitesting@email.com", "password": "apitest123456", "name": "API Test", "contactNumber": "7259842548"};
 
     try {
-      var url =
-          Uri.parse('https://bloggy-backend-api.herokuapp.com/users/signup');
+      var url = Uri.parse('https://bloggy-backend-api.herokuapp.com/users/signup');
       var response = await http.post(url, body: input);
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
