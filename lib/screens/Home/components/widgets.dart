@@ -9,7 +9,7 @@ AppBar buildHomeAppBar(titleString, currentState) {
   );
 }
 
-BottomAppBar buildHomeBottomAppBar(currentState) {
+BottomAppBar  buildHomeBottomAppBar(currentState) {
   return BottomAppBar(
     color: Colors.blueGrey,
     shape: CircularNotchedRectangle(),

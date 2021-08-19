@@ -1,7 +1,6 @@
+import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
-
-import '../Profile.dart';
 import 'components/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
