@@ -1,83 +1,33 @@
+import 'dart:io';
+
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class CreateProfile extends StatelessWidget {
+class CreateProfile extends StatefulWidget {
   static const routeName = '/create-profile';
 
   @override
+  _CreateProfileState createState() => _CreateProfileState();
+}
+
+class _CreateProfileState extends State<CreateProfile> {
+  PickedFile _imageFile;
+  final ImagePicker _picker = ImagePicker();
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.getImage(source: source);
+
+    setState(() {
+      _imageFile = pickedFile;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Widget bottomSheet() {
-      return Container(
-        height: 100,
-        width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
-        child: Column(
-          children: [
-            Text(
-              'Choose Profile Photo',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.camera),
-                  label: Text("Camera"),
-                ),
-                FlatButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.image),
-                  label: Text("Gallery"),
-                ),
-              ],
-            )
-          ],
-        ),
-      );
-    }
-
-    Widget _profileImage() {
-      return Center(
-        child: Stack(
-          children: [
-            CircleAvatar(
-              radius: 100.0,
-              backgroundImage: AssetImage("assets/images/undraw_Reading_re_29f8.png"),
-            ),
-            Positioned(
-              bottom: 30.0,
-              right: 20.0,
-              child: InkWell(
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.teal,
-                  size: 30,
-                ),
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: ((builder) => bottomSheet()),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.all(50),
         child: ListView(
           children: [
             _profileImage(),
@@ -217,5 +167,80 @@ class CreateProfile extends StatelessWidget {
     );
   }
 
-  //
+  Widget _profileImage() {
+    return Center(
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 100.0,
+            backgroundImage: _imageFile == null
+                ? AssetImage("assets/images/undraw_Reading_re_29f8.png")
+                : FileImage(
+                    File(_imageFile.path),
+                  ),
+          ),
+          Positioned(
+            bottom: 30.0,
+            right: 20.0,
+            child: InkWell(
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.teal,
+                size: 30,
+              ),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: ((builder) => bottomSheet()),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Choose Profile Photo',
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FlatButton.icon(
+                onPressed: () {
+                  takePhoto(ImageSource.camera);
+                },
+                icon: Icon(Icons.camera),
+                label: Text("Camera"),
+              ),
+              FlatButton.icon(
+                onPressed: () {
+                  takePhoto(ImageSource.gallery);
+                },
+                icon: Icon(Icons.image),
+                label: Text("Gallery"),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
