@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ProfileScreen(), // currentScreen,
+      home: CreateProfile(), // currentScreen,
       routes: {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),

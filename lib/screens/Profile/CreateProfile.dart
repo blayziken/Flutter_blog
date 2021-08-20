@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,9 +14,10 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
+  // Image Picker Variables
   PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
-
+  // Image Picker Function Call
   void takePhoto(ImageSource source) async {
     final pickedFile = await _picker.getImage(source: source);
 
@@ -23,24 +26,79 @@ class _CreateProfileState extends State<CreateProfile> {
     });
   }
 
+  // TextForm Fields Global Key and Controllers
+  final _globalKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _professionController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _aboutController = TextEditingController();
+
+  // API Call
+  NetworkHandler networkHandler = NetworkHandler();
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(50),
+      body: Form(
+        key: _globalKey,
         child: ListView(
+          padding: EdgeInsets.only(left: 50, right: 50, top: 100),
           children: [
             _profileImage(),
-            customYMargin(20),
+            customYMargin(30),
             _buildNameField(),
-            customYMargin(20),
+            customYMargin(30),
             _buildProfessionField(),
-            customYMargin(20),
+            customYMargin(30),
             _buildDOBField(),
-            customYMargin(20),
+            customYMargin(30),
             _buildTitleField(),
-            customYMargin(20),
+            customYMargin(30),
             _buildAboutField(),
+            customYMargin(50),
+            InkWell(
+              onTap: () async {
+                if (_globalKey.currentState.validate()) {
+                  Map<String, String> body = {
+                    "name": _nameController.text,
+                    "profession": _professionController.text,
+                    "dob": _dobController.text,
+                    "title": _titleController.text,
+                    "about": _aboutController.text,
+                  };
+
+                  var response = await networkHandler.postData('profiles/add', body);
+
+//                  if (response.statusCode == 200 || response.statusCode == 201) {
+//                    Map<String, dynamic> output = json.decode(response.body);
+//                    }
+
+                  print('Ok');
+                }
+              },
+              child: Center(
+                child: Container(
+                  width: size.width * 0.5,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Submit 🚀',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -49,6 +107,12 @@ class _CreateProfileState extends State<CreateProfile> {
 
   Widget _buildNameField() {
     return TextFormField(
+      controller: _nameController,
+      validator: (value) {
+        if (value.isEmpty) return "Field cannot be empty";
+
+        return null;
+      },
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -73,6 +137,12 @@ class _CreateProfileState extends State<CreateProfile> {
 
   Widget _buildProfessionField() {
     return TextFormField(
+      controller: _professionController,
+      validator: (value) {
+        if (value.isEmpty) return "Field cannot be empty";
+
+        return null;
+      },
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -97,6 +167,12 @@ class _CreateProfileState extends State<CreateProfile> {
 
   Widget _buildDOBField() {
     return TextFormField(
+      controller: _dobController,
+      validator: (value) {
+        if (value.isEmpty) return "Field cannot be empty";
+
+        return null;
+      },
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -121,6 +197,12 @@ class _CreateProfileState extends State<CreateProfile> {
 
   Widget _buildTitleField() {
     return TextFormField(
+      controller: _titleController,
+      validator: (value) {
+        if (value.isEmpty) return "Field cannot be empty";
+
+        return null;
+      },
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -138,13 +220,20 @@ class _CreateProfileState extends State<CreateProfile> {
           color: Colors.green,
         ),
         labelText: "Title",
-        hintText: "Dev Stack",
+        hintText: "Flutter Developer",
       ),
     );
   }
 
   Widget _buildAboutField() {
     return TextFormField(
+      controller: _aboutController,
+      validator: (value) {
+        if (value.isEmpty) return "Field cannot be empty";
+
+        return null;
+      },
+      maxLines: 4,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderSide: BorderSide(
