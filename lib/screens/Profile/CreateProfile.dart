@@ -6,11 +6,82 @@ class CreateProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget bottomSheet() {
+      return Container(
+        height: 100,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(
+          children: [
+            Text(
+              'Choose Profile Photo',
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.camera),
+                  label: Text("Camera"),
+                ),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.image),
+                  label: Text("Gallery"),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget _profileImage() {
+      return Center(
+        child: Stack(
+          children: [
+            CircleAvatar(
+              radius: 100.0,
+              backgroundImage: AssetImage("assets/images/undraw_Reading_re_29f8.png"),
+            ),
+            Positioned(
+              bottom: 30.0,
+              right: 20.0,
+              child: InkWell(
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.teal,
+                  size: 30,
+                ),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: ((builder) => bottomSheet()),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(50),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ListView(
           children: [
+            _profileImage(),
+            customYMargin(20),
             _buildNameField(),
             customYMargin(20),
             _buildProfessionField(),
@@ -145,4 +216,6 @@ class CreateProfile extends StatelessWidget {
       ),
     );
   }
+
+  //
 }
