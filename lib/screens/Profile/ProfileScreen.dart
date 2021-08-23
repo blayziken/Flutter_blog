@@ -58,33 +58,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //          mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.red,
-                radius: 90,
-                backgroundImage: AssetImage("assets/images/undraw_Reading_re_29f8.png"),
-              ),
-              customYMargin(20),
-              Column(
-                children: [
-                  Text(
-                    'Lagos, Nigeria',
-                    style: TextStyle(
-                      fontSize: 25,
-                    ),
-                  ),
-                  customYMargin(30),
-                  Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                      fontSize: 22,
-                    ),
-                  ),
-                ],
+              Expanded(
+                flex: 1,
+                child: ImageAndNameDetails(),
               ),
               customYMargin(30),
               Expanded(
+                flex: 2,
                 child: Container(
                   width: double.infinity,
                   color: Colors.blue[800],
@@ -116,6 +96,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ImageAndNameDetails extends StatelessWidget {
+  const ImageAndNameDetails({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: CircleAvatar(
+            backgroundColor: Colors.red,
+            radius: 90,
+            backgroundImage: AssetImage("assets/images/undraw_Reading_re_29f8.png"), // NetworkHandler().getImage("postman1")
+          ),
+        ),
+        customYMargin(20),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Postman Test',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            customYMargin(5),
+            Text(
+              'App Developer || Full Stack Developer | Web Development | SEO',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

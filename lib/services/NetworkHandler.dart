@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 class NetworkHandler {
 //  String baseURL = 'https://bloggy-backend-api.herokuapp.com';
@@ -52,6 +53,11 @@ class NetworkHandler {
 
     var response = request.send();
     return response;
+  }
+
+  NetworkImage getImage(String username) {
+    String imageUrl = '$baseURL/uploads/$username.jpg';
+    return NetworkImage(imageUrl);
   }
 
 // http://192.168.43.41:8000/
