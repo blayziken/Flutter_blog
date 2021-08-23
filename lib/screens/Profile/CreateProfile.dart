@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,8 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
+  bool _spinner = false;
+
   // Image Picker Variables
   PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
@@ -60,6 +62,10 @@ class _CreateProfileState extends State<CreateProfile> {
             customYMargin(50),
             InkWell(
               onTap: () async {
+                setState(() {
+                  _spinner = true;
+                });
+
                 if (_globalKey.currentState.validate()) {
                   Map<String, String> body = {
                     "name": _nameController.text,
@@ -75,7 +81,28 @@ class _CreateProfileState extends State<CreateProfile> {
 //                    Map<String, dynamic> output = json.decode(response.body);
 //                    }
 
-                  print('Ok');
+                  if (response.statusCode == 200 || response.statusCode == 201) {
+                    print('Ok');
+                    if (_imageFile != null) {
+                      var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path);
+                      if (imageResponse.statusCode == 200) {
+                        setState(() {
+                          _spinner = false;
+                        });
+                      }
+                    } else {
+                      setState(() {
+                        _spinner = false;
+                      });
+                    }
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ),
+                        (route) => false);
+                  }
                 }
               },
               child: Center(
@@ -87,14 +114,18 @@ class _CreateProfileState extends State<CreateProfile> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
-                    child: Text(
-                      'Submit 🚀',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                      ),
-                    ),
+                    child: _spinner
+                        ? CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          )
+                        : Text(
+                            'Submit 🚀',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                            ),
+                          ),
                   ),
                 ),
               ),

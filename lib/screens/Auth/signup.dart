@@ -413,7 +413,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 _buildName(),
-                customYMargin(17),
+                customYMargin(20),
                 Text(
                   'Username',
                   style: TextStyle(
@@ -423,7 +423,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 _buildUserName(),
-                customYMargin(17),
+                customYMargin(20),
                 Text(
                   'Email',
                   style: TextStyle(
@@ -433,7 +433,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 _buildEmail(),
-                customYMargin(17),
+                customYMargin(20),
                 Text(
                   'Contact',
                   style: TextStyle(
@@ -443,7 +443,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 _buildContact(),
-                customYMargin(17),
+                customYMargin(20),
                 Text(
                   'Password',
                   style: TextStyle(

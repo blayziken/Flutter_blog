@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'components/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home-screen';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -53,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      appBar: buildHomeAppBar(titleString, currentState),
+      appBar: buildHomeAppBar(titleString, currentState, context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
         onPressed: () {},
@@ -65,7 +67,43 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: buildHomeBottomAppBar(currentState),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blueGrey,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 12,
+        child: Container(
+          height: 60,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.home),
+                  color: currentState == 0 ? Colors.white : Colors.white54,
+                  onPressed: () {
+                    setState(() {
+                      currentState = 0;
+                    });
+                  },
+                  iconSize: 30,
+                ),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  color: currentState == 1 ? Colors.white : Colors.white54,
+                  onPressed: () {
+                    print('a');
+                    setState(() {
+                      currentState = 1;
+                    });
+                  },
+                  iconSize: 30,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: widgets[currentState],
     );
   }

@@ -1,3 +1,5 @@
+import 'package:blog_app/services/NetworkHandler.dart';
+import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -7,34 +9,199 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // API Call
+  NetworkHandler networkHandler = NetworkHandler();
+
+  Widget currentScreen = Center(
+    child: CircularProgressIndicator(),
+  );
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkProfile();
+  }
+
+  void checkProfile() async {
+    var response = await networkHandler.get('profiles/checkProfile');
+    if (response["status"] == true) {
+      setState(() {
+        currentScreen = showProfile();
+      });
+    } else {
+      setState(() {
+        currentScreen = defaultScreen();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Add profile',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            ),
-            GestureDetector(
-              child: Container(
-                height: 50,
-                width: 150,
-                color: Colors.green,
-                child: Center(
-                  child: Text('Add'),
+      body: defaultScreen(), //currentScreen,
+    );
+  }
+
+  Widget showProfile() {
+    return Center(child: Text('Profile Available'));
+  }
+
+  Widget defaultScreen() {
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.only(top: 30.0),
+        child: Container(
+//          color: Colors.teal,
+          width: double.infinity,
+          child: Column(
+//          mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 90,
+                backgroundImage: AssetImage("assets/images/undraw_Reading_re_29f8.png"),
+              ),
+              customYMargin(20),
+              Column(
+                children: [
+                  Text(
+                    'Lagos, Nigeria',
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
+                  ),
+                  customYMargin(30),
+                  Text(
+                    'Edit Profile',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                      fontSize: 22,
+                    ),
+                  ),
+                ],
+              ),
+              customYMargin(30),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.blue[800],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProfileDeets(icon: Icons.local_phone, title: 'Phone Number', answer: '+2345454234'),
+                      ProfileDeets(icon: Icons.mail, title: 'Email', answer: 'kingtoluwalope@gmail.com'),
+                      ProfileDeets(icon: Icons.person, title: 'Something', answer: 'Something'),
+                      InkWell(
+                        child: Text(
+                          'About Me?',
+                          style: TextStyle(fontSize: 20, color: Colors.white, decoration: TextDecoration.underline),
+                        ),
+                        onTap: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.blueGrey,
+                            context: context,
+                            builder: ((builder) => bottomSheet()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              onTap: () {
-                Navigator.pushNamed(context, '/create-profile');
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+class ProfileDeets extends StatelessWidget {
+  const ProfileDeets({
+    Key key,
+    @required this.title,
+    this.answer,
+    this.icon,
+  }) : super(key: key);
+
+  final String title, answer;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width * 0.75,
+      height: 85,
+      decoration: BoxDecoration(
+//                            color: Colors.white,
+        border: Border.all(color: Colors.black54, width: 2.0),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              customXMargin(20),
+              Icon(
+                icon,
+                size: 30,
+                color: Colors.white,
+              ),
+              customXMargin(30),
+              Container(
+                height: 50,
+                width: 1,
+                color: Colors.black,
+              ),
+              customXMargin(25),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.white54,
+                    ),
+                  ),
+                  Text(
+                    answer,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget bottomSheet() {
+  return Container(
+//    height: 100,
+    width: double.infinity,
+    margin: EdgeInsets.symmetric(
+      horizontal: 20,
+      vertical: 20,
+    ),
+    child: Text(
+      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      style: TextStyle(fontSize: 15),
+    ),
+  );
 }

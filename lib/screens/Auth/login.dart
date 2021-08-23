@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-//import '../../apitest.dart';
 import '../Home/Home.dart';
 import 'components/login_components.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -196,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ],
                                 ),
                               ),
-                              customYMargin(40),
+                              customYMargin(60),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
