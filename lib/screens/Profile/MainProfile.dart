@@ -16,7 +16,6 @@ class _MainProfileScreenState extends State<MainProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchProfileData();
   }
