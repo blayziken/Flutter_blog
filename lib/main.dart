@@ -2,6 +2,7 @@ import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
+import 'package:blog_app/screens/Profile/MainProfile.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: currentScreen,
+      home: MainProfileScreen(), //currentScreen,
       routes: {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),
