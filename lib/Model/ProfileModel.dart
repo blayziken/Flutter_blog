@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'profileModel.g.dart';
+part 'ProfileModel.g.dart';
 
 @JsonSerializable()
 class ProfileModel {

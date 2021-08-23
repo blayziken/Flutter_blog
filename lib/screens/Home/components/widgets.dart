@@ -1,4 +1,5 @@
 import 'package:blog_app/screens/Auth/login.dart';
+import 'package:blog_app/screens/Profile/MainProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -14,11 +15,17 @@ AppBar buildHomeAppBar(titleString, currentState, context) {
         icon: Icon(Icons.add_alert),
         onPressed: () async {
           print('Logout');
-          await storage.write(key: "token", value: null);
-          Navigator.pushReplacement(
+//          await storage.write(key: "token", value: null);
+//          Navigator.pushReplacement(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) => LoginScreen(),
+//            ),
+//          );
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LoginScreen(),
+              builder: (context) => MainProfileScreen(),
             ),
           );
         },

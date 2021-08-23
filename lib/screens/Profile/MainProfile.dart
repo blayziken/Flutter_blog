@@ -21,64 +21,70 @@ class _MainProfileScreenState extends State<MainProfileScreen> {
   }
 
   void fetchProfileData() async {
+    setState(() {
+      _spinner = true;
+    });
     var response = await networkHandler.get('profiles/getProfileData');
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      _spinner = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: 30.0),
-        child: Container(
+      body: _spinner
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: EdgeInsets.only(top: 30.0),
+              child: Container(
 //          color: Colors.teal,
-          width: double.infinity,
-          child: Column(
+                width: double.infinity,
+                child: Column(
 //          mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 1,
-                child: ImageAndNameDetails(
-                  profileModel: profileModel,
-                ),
-              ),
-              customYMargin(30),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.blue[800],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ProfileDeets(icon: Icons.mail, title: 'Email', answer: profileModel.name),
-                      ProfileDeets(icon: Icons.person, title: 'Birthday', answer: profileModel.DOB),
-                      ProfileDeets(icon: Icons.local_phone, title: 'Phone Number', answer: profileModel.contactnumber),
-                      InkWell(
-                        child: Text(
-                          'About Me?',
-                          style: TextStyle(fontSize: 20, color: Colors.white, decoration: TextDecoration.underline),
-                        ),
-                        onTap: () {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.blueGrey,
-                            context: context,
-                            builder: ((builder) => bottomSheet()),
-                          );
-                        },
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: ImageAndNameDetails(
+                        profileModel: profileModel,
                       ),
-                    ],
-                  ),
+                    ),
+                    customYMargin(30),
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.blue[800],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ProfileDeets(icon: Icons.mail, title: 'Username', answer: profileModel.username),
+                            ProfileDeets(icon: Icons.person, title: 'Birthday', answer: profileModel.DOB),
+                            ProfileDeets(icon: Icons.local_phone, title: 'Profession', answer: profileModel.profession),
+                            InkWell(
+                              child: Text(
+                                'About Me?',
+                                style: TextStyle(fontSize: 20, color: Colors.white, decoration: TextDecoration.underline),
+                              ),
+                              onTap: () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.blueGrey,
+                                  context: context,
+                                  builder: ((builder) => bottomSheet(profileModel.about)),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
@@ -94,6 +100,7 @@ class ImageAndNameDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        customYMargin(40),
         Center(
           child: CircleAvatar(
             backgroundColor: Colors.red,
@@ -106,7 +113,7 @@ class ImageAndNameDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              profileModel.username,
+              profileModel.name,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             customYMargin(5),
@@ -194,7 +201,7 @@ class ProfileDeets extends StatelessWidget {
   }
 }
 
-Widget bottomSheet() {
+Widget bottomSheet(about) {
   return Container(
 //    height: 100,
     width: double.infinity,
@@ -203,7 +210,7 @@ Widget bottomSheet() {
       vertical: 20,
     ),
     child: Text(
-      'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      about,
       style: TextStyle(fontSize: 15),
     ),
   );
