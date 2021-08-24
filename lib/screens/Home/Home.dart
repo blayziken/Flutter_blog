@@ -1,4 +1,7 @@
+import 'package:blog_app/Model/ProfileModel.dart';
+import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
+import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'components/widgets.dart';
@@ -23,34 +26,84 @@ class _HomeScreenState extends State<HomeScreen> {
     "Profile Page",
   ];
 
+  ProfileModel profileModel = ProfileModel();
+  NetworkHandler networkHandler = NetworkHandler();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchProfileData();
+  }
+
+  void fetchProfileData() async {
+    setState(() {
+//      _spinner = true;
+    });
+    var response = await networkHandler.get('profiles/getProfileData');
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+//      _spinner = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
+        elevation: 0,
         child: ListView(
           children: [
             DrawerHeader(
               child: Column(
                 children: [
-                  CircleAvatar(
-                    maxRadius: 50,
-                    backgroundColor: Colors.black,
+                  Expanded(
+                    child: CircleAvatar(
+                      maxRadius: 70,
+//                    backgroundColor: Colors.black,
+                      backgroundImage: NetworkHandler().getImage(profileModel.username),
+                    ),
                   ),
-//                  Container(
-//                    height: 100,
-//                    width: 100,
-//                    decoration: BoxDecoration(
-//                      color: Colors.black,
-//                      borderRadius: BorderRadius.circular(50),
-//                    ),
-//                  ),
-                  customYMargin(10),
-                  Text('@username'),
+//                  customYMargin(10),
+                  Text('@${profileModel.username}'),
                 ],
               ),
             ),
             ListTile(
               title: Text('All Posts'),
+              trailing: Icon(Icons.launch),
+              onTap: () {
+                print('aa');
+              },
+            ),
+            ListTile(
+              title: Text('New Story'),
+              trailing: Icon(Icons.add),
+            ),
+            ListTile(
+              title: Text('Settings'),
+              trailing: Icon(Icons.settings),
+            ),
+            ListTile(
+              title: Text('Feedback'),
+              trailing: Icon(Icons.feedback),
+            ),
+            ListTile(
+              title: Text(
+                'Sign Out',
+                style: TextStyle(color: Colors.red),
+              ),
+              trailing: Icon(Icons.logout),
+              onTap: () async {
+                print('Logout');
+                await storage.delete(key: "token");
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                    (route) => false);
+              },
             ),
           ],
         ),
@@ -58,7 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: buildHomeAppBar(titleString, currentState, context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/add-blog');
+        },
         child: Text(
           "+",
           style: TextStyle(
