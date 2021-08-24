@@ -1,5 +1,4 @@
 import 'package:blog_app/services/NetworkHandler.dart';
-import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 
 import 'MainProfile.dart';

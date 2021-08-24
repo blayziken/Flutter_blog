@@ -1,5 +1,6 @@
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
+import 'package:blog_app/screens/Blog/AddBlog.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
 import 'package:blog_app/screens/Profile/EditProfile.dart';
@@ -62,6 +63,8 @@ class _MyAppState extends State<MyApp> {
         ProfileScreen.routeName: (context) => ProfileScreen(),
         CreateProfile.routeName: (context) => CreateProfile(),
         EditProfileScreen.routeName: (context) => EditProfileScreen(),
+
+        AddBlogScreen.routeName: (context) => AddBlogScreen(),
       },
     );
   }

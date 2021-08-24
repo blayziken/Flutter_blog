@@ -81,11 +81,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 // Checking if user did not update a field
                 if (body.length == 0 && _imageFile == null) {
+                  setState(() {
+                    _spinner = false;
+                  });
                   final snackBar = SnackBar(
                     content: Text('You have to update at least a field'),
                     backgroundColor: Colors.red,
                   );
-                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                  return _scaffoldKey.currentState.showSnackBar(snackBar);
                 }
 
                 var response = await networkHandler.patchData('profiles/update', body);
