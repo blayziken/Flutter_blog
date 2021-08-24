@@ -2,6 +2,7 @@ import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
+import 'package:blog_app/screens/Profile/EditProfile.dart';
 import 'package:blog_app/screens/Profile/MainProfile.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         // Profile Screens
         ProfileScreen.routeName: (context) => ProfileScreen(),
         CreateProfile.routeName: (context) => CreateProfile(),
+        EditProfileScreen.routeName: (context) => EditProfileScreen(),
       },
     );
   }

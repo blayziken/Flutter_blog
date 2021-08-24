@@ -60,5 +60,17 @@ class NetworkHandler {
     return NetworkImage(imageUrl);
   }
 
+  Future<http.Response> patchData(String url, Map<String, String> body) async {
+    String token = await storage.read(key: "token");
+    var callUrl = Uri.parse('$baseURL/$url');
+
+    var response = await http.patch(
+      callUrl,
+      body: json.encode(body),
+      headers: {"Content-type": "application/json", "Authorization": "Bearer $token"},
+    );
+
+    return (response);
+  }
 // http://192.168.43.41:8000/
 }

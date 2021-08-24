@@ -5,14 +5,14 @@ import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateProfile extends StatefulWidget {
-  static const routeName = '/create-profile';
+class EditProfileScreen extends StatefulWidget {
+  static const routeName = '/edit-profile';
 
   @override
-  _CreateProfileState createState() => _CreateProfileState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _CreateProfileState extends State<CreateProfile> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   bool _spinner = false;
 
   // Image Picker Variables
@@ -35,6 +35,8 @@ class _CreateProfileState extends State<CreateProfile> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _aboutController = TextEditingController();
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   // API Call
   NetworkHandler networkHandler = NetworkHandler();
 
@@ -42,6 +44,7 @@ class _CreateProfileState extends State<CreateProfile> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: Form(
         key: _globalKey,
         child: ListView(
@@ -65,43 +68,59 @@ class _CreateProfileState extends State<CreateProfile> {
                   _spinner = true;
                 });
 
-                if (_globalKey.currentState.validate()) {
-                  Map<String, String> body = {
-                    "name": _nameController.text,
-                    "profession": _professionController.text,
-                    "dob": _dobController.text,
-                    "title": _titleController.text,
-                    "about": _aboutController.text,
-                  };
+                Map<String, String> body = {
+                  "name": _nameController.text,
+                  "profession": _professionController.text,
+                  "dob": _dobController.text,
+                  "title": _titleController.text,
+                  "about": _aboutController.text,
+                };
 
-                  var response = await networkHandler.postData('profiles/add', body);
+                // Removing empty fields
+                body.removeWhere((key, value) => value.isEmpty);
 
-//                  if (response.statusCode == 200 || response.statusCode == 201) {
-//                    Map<String, dynamic> output = json.decode(response.body);
-//                    }
+                // Checking if user did not update a field
+                if (body.length == 0 && _imageFile == null) {
+                  final snackBar = SnackBar(
+                    content: Text('You have to update at least a field'),
+                    backgroundColor: Colors.red,
+                  );
+                  _scaffoldKey.currentState.showSnackBar(snackBar);
+                }
 
-                  if (response.statusCode == 200 || response.statusCode == 201) {
-                    print('Ok');
-                    if (_imageFile != null) {
-                      var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path);
-                      if (imageResponse.statusCode == 200) {
-                        setState(() {
-                          _spinner = false;
-                        });
-                      }
-                    } else {
+                var response = await networkHandler.patchData('profiles/update', body);
+
+                if (response.statusCode == 200 || response.statusCode == 201) {
+                  print('Updated Profile');
+                  if (_imageFile != null) {
+                    var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path);
+                    if (imageResponse.statusCode == 200) {
                       setState(() {
                         _spinner = false;
                       });
                     }
-
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
-                        ),
-                        (route) => false);
+                  } else {
+                    setState(() {
+                      _spinner = false;
+                    });
                   }
+
+                  final snackBar2 = SnackBar(
+                    content: Text('Profile Updated Successfully'),
+                    backgroundColor: Colors.green,
+                  );
+                  _scaffoldKey.currentState.showSnackBar(snackBar2);
+
+                  setState(() {
+                    _spinner = false;
+                  });
+
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                      (route) => false);
                 }
               },
               child: Center(
@@ -118,7 +137,7 @@ class _CreateProfileState extends State<CreateProfile> {
                             backgroundColor: Colors.white,
                           )
                         : Text(
-                            'Submit 🚀',
+                            'Update',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -128,7 +147,14 @@ class _CreateProfileState extends State<CreateProfile> {
                   ),
                 ),
               ),
-            )
+            ),
+            customYMargin(50),
+            Center(
+              child: Text(
+                'Only update the fields you want, leave the rest',
+                style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       ),
@@ -139,7 +165,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _nameController,
       validator: (value) {
-        if (value.isEmpty) return "Field cannot be empty";
+//        if (value.isEmpty) return "Field cannot be empty";
 
         return null;
       },
@@ -169,7 +195,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _professionController,
       validator: (value) {
-        if (value.isEmpty) return "Field cannot be empty";
+//        if (value.isEmpty) return "Field cannot be empty";
 
         return null;
       },
@@ -199,7 +225,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _dobController,
       validator: (value) {
-        if (value.isEmpty) return "Field cannot be empty";
+//        if (value.isEmpty) return "Field cannot be empty";
 
         return null;
       },
@@ -229,7 +255,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _titleController,
       validator: (value) {
-        if (value.isEmpty) return "Field cannot be empty";
+//        if (value.isEmpty) return "Field cannot be empty";
 
         return null;
       },
@@ -259,7 +285,7 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _aboutController,
       validator: (value) {
-        if (value.isEmpty) return "Field cannot be empty";
+//        if (value.isEmpty) return "Field cannot be empty";
 
         return null;
       },

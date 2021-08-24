@@ -34,12 +34,25 @@ class _MainProfileScreenState extends State<MainProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white10,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              print('Edit');
+              Navigator.pushNamed(context, '/edit-profile');
+            },
+            color: Colors.black,
+          )
+        ],
+      ),
       body: _spinner
           ? Center(child: CircularProgressIndicator())
           : Padding(
-              padding: EdgeInsets.only(top: 30.0),
+              padding: EdgeInsets.only(top: 0.0),
               child: Container(
-//          color: Colors.teal,
                 width: double.infinity,
                 child: Column(
 //          mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +64,7 @@ class _MainProfileScreenState extends State<MainProfileScreen> {
                         profileModel: profileModel,
                       ),
                     ),
-                    customYMargin(30),
+                    customYMargin(10),
                     Expanded(
                       flex: 2,
                       child: Container(
@@ -100,30 +113,36 @@ class ImageAndNameDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        customYMargin(40),
-        Center(
-          child: CircleAvatar(
-            backgroundColor: Colors.red,
-            radius: 90,
-            backgroundImage: NetworkHandler().getImage(profileModel.username), //AssetImage("assets/images/undraw_Reading_re_29f8.png"),
+        customYMargin(5),
+        Expanded(
+          flex: 4,
+          child: Center(
+            child: CircleAvatar(
+              backgroundColor: Colors.red,
+              radius: 130,
+              backgroundImage: NetworkHandler().getImage(profileModel.username), //AssetImage("assets/images/undraw_Reading_re_29f8.png"),
+            ),
           ),
         ),
-        customYMargin(20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              profileModel.name,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            customYMargin(5),
-            Text(
-              profileModel.titleline, //'App Developer || Full Stack Developer | Web Development | SEO',
-              style: TextStyle(
-                fontSize: 20,
+        customYMargin(10),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                profileModel.name,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+//              customYMargin(5),
+              Text(
+                profileModel.titleline, //'App Developer || Full Stack Developer | Web Development | SEO',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
