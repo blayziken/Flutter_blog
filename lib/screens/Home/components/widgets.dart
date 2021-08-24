@@ -14,20 +14,12 @@ AppBar buildHomeAppBar(titleString, currentState, context) {
       IconButton(
         icon: Icon(Icons.add_alert),
         onPressed: () async {
-          print('Logout');
-//          await storage.write(key: "token", value: null);
-//          Navigator.pushReplacement(
+//          Navigator.push(
 //            context,
 //            MaterialPageRoute(
-//              builder: (context) => LoginScreen(),
+//              builder: (context) => MainProfileScreen(),
 //            ),
 //          );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainProfileScreen(),
-            ),
-          );
         },
       ),
     ],
