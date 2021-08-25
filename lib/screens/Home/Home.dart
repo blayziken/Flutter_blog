@@ -2,7 +2,6 @@ import 'package:blog_app/Model/ProfileModel.dart';
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
-import 'package:blog_app/utils/marginUtils.dart';
 import 'package:flutter/material.dart';
 import 'components/widgets.dart';
 
@@ -81,12 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
               trailing: Icon(Icons.add),
             ),
             ListTile(
-              title: Text('Settings'),
-              trailing: Icon(Icons.settings),
+              title: Text('My Posts'),
+              trailing: Icon(Icons.storage),
+              onTap: () {
+                Navigator.pushNamed(context, '/my-blog-posts');
+              },
             ),
             ListTile(
               title: Text('Feedback'),
               trailing: Icon(Icons.feedback),
+            ),
+            ListTile(
+              title: Text('Settings'),
+              trailing: Icon(Icons.settings),
             ),
             ListTile(
               title: Text(
