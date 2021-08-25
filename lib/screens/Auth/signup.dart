@@ -17,11 +17,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-//  String _name;
-//  String _username;
-//  String _email;
-//  String _password;
-//  String _contact;
   bool showPassword = true;
 
   // API Network Handler Call
@@ -49,11 +44,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validate = false;
         errorText = 'Username cannot be empty';
       });
-
       return;
     }
-
-    print(usernameText);
 
     var response = await networkHandler.get('users/checkUsername/$usernameText');
 
@@ -69,11 +61,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         validate = true;
       });
     }
-
-    print('--------------------------------------');
-    print(response);
-//    print(validate);
-    print('--------------------------------------');
   }
 
 // Storing token:
