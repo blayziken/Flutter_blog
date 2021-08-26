@@ -15,11 +15,12 @@ AddBlogModel _$AddBlogModelFromJson(Map<String, dynamic> json) {
     coverImage: json['coverImage'] as String,
     likes: json['likes'] as int,
     shares: json['shares'] as int,
-  );
+  )..id = json['_id'] as String;
 }
 
 Map<String, dynamic> _$AddBlogModelToJson(AddBlogModel instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'coverImage': instance.coverImage,
       'title': instance.title,
       'body': instance.body,

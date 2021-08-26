@@ -5,7 +5,6 @@ import 'package:blog_app/screens/Blog/BlogPosts.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
 import 'package:blog_app/screens/Profile/EditProfile.dart';
-import 'package:blog_app/screens/Profile/MainProfile.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

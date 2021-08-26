@@ -60,6 +60,11 @@ class NetworkHandler {
     return NetworkImage(imageUrl);
   }
 
+  NetworkImage getCoverImage(String username) {
+    String imageUrl = '$baseURL/uploads/postCoverImages/$username.jpg';
+    return NetworkImage(imageUrl);
+  }
+
   Future<http.Response> patchData(String url, Map<String, String> body) async {
     String token = await storage.read(key: "token");
     var callUrl = Uri.parse('$baseURL/$url');
