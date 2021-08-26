@@ -1,7 +1,7 @@
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
-import 'package:blog_app/screens/Blog/AddBlog.dart';
-import 'package:blog_app/screens/Blog/BlogPosts.dart';
+import 'package:blog_app/screens/Blog/screens/AddBlog.dart';
+import 'package:blog_app/screens/Blog/screens/MyBlogPosts.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
 import 'package:blog_app/screens/Profile/EditProfile.dart';

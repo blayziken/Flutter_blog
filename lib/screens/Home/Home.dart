@@ -1,5 +1,6 @@
 import 'package:blog_app/Model/ProfileModel.dart';
 import 'package:blog_app/screens/Auth/login.dart';
+import 'package:blog_app/screens/Blog/BlogPosts.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:flutter/material.dart';
@@ -178,20 +179,10 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: double.infinity,
-      child: Center(
-        child: Container(
-          height: 50,
-//              width: 150,
-          color: Colors.green,
-          child: Center(
-            child: Text(
-              'Welcome to Bloggy',
-              style: TextStyle(fontSize: 50),
-            ),
-          ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: BlogPosts(
+          url: "posts/otherBlogPosts",
         ),
       ),
     );

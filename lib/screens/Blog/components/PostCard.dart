@@ -1,5 +1,5 @@
 import 'package:blog_app/Model/AddBlogModel.dart';
-import 'package:blog_app/screens/Blog/BlogPostView.dart';
+import 'file:///C:/Users/Administrator/AndroidStudioProjects/blog_app/lib/screens/Blog/screens/BlogPostView.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 
@@ -17,47 +17,43 @@ class BlogPostCard extends StatelessWidget {
         height: 200,
         padding: EdgeInsets.all(5),
         width: size.width,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.blueGrey,
-            width: 0,
-          ),
-        ),
-        child: Stack(
-          children: [
-            Container(
-              height: size.height,
-              width: size.width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: networkHandler.getCoverImage(addBlogModel.id),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                padding: EdgeInsets.all(8),
-                height: 55,
+        child: Card(
+          child: Stack(
+            children: [
+              Container(
+                height: size.height,
                 width: size.width,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-//                borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: networkHandler.getCoverImage(addBlogModel.id),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: Center(
-                  child: Text(
-                    addBlogModel.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 18,
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  height: 55,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+//                borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      addBlogModel.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       onTap: () {
