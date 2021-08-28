@@ -1,13 +1,12 @@
 import 'dart:convert';
-
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
+import 'package:blog_app/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../Home/Home.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -18,6 +17,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool showPassword = true;
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // API Network Handler Call
   NetworkHandler networkHandler = NetworkHandler();
@@ -47,18 +48,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    var response = await networkHandler.get('users/checkUsername/$usernameText');
+    try {
+      var response = await networkHandler.get('users/checkUsername/$usernameText');
 
-    if (response["status"]) {
-      setState(() {
+      if (response["status"]) {
+        setState(() {
 //        spinner = false;
-        validate = false;
-        errorText = 'Username already exists';
-      });
-    } else {
-      setState(() {
+          validate = false;
+          errorText = 'Username already exists';
+        });
+      } else {
+        setState(() {
 //        spinner = false;
-        validate = true;
+          validate = true;
+        });
+      }
+    } catch (err) {
+      if (err.toString().startsWith('SocketException')) {
+        print('Connection Error : $err');
+
+        _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
+      }
+      setState(() {
+        spinner = false;
       });
     }
   }
@@ -71,6 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -145,55 +158,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           "contactNumber": _contactController.text,
                                         };
 
-                                        //Signup route
-                                        var responseRegister = await networkHandler.postData('users/signup', body);
+                                        try {
+                                          //Signup route
+                                          var responseRegister = await networkHandler.postData('users/signup', body);
 
-                                        print(responseRegister.statusCode);
+                                          if (responseRegister.statusCode == 200 || responseRegister.statusCode == 201) {
+                                            Map<String, String> data = {
+                                              "username": _usernameController.text,
+                                              "password": _passwordController.text,
+                                            };
 
-                                        if (responseRegister.statusCode == 200 || responseRegister.statusCode == 201) {
-                                          print('register ok');
-                                          Map<String, String> data = {
-                                            "username": _usernameController.text,
-                                            "password": _passwordController.text,
-                                          };
+                                            // Login route
+                                            var response = await networkHandler.postData('users/login', data);
 
-                                          // If all is well, then login
-                                          var response = await networkHandler.postData('users/login', data);
+                                            if (response.statusCode == 200 || response.statusCode == 201) {
+                                              Map<String, dynamic> output = json.decode(response.body);
 
-                                          if (response.statusCode == 200 || response.statusCode == 201) {
-                                            Map<String, dynamic> output = json.decode(response.body);
+                                              await storage.write(key: "token", value: output['token']);
 
-                                            print(output['token']);
-                                            await storage.write(key: "token", value: output['token']);
+                                              setState(() {
+                                                validate = true;
+                                                spinner = false;
+                                              });
 
+                                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+                                            }
+                                          }
+                                        } catch (err) {
+                                          if (err.toString().contains('SocketException')) {
+                                            print('AAAA');
                                             setState(() {
-                                              validate = true;
                                               spinner = false;
                                             });
-
-                                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
                                           }
-                                        } else {
-                                          ///TODO SIGNUP ERROR SNACKBAR
-//                                          Scaffold.of(context).showSnackBar(
-//                                            SnackBar(
-//                                              content: Text("Network Error"),
-//                                            ),
-//                                          );
-                                          print('--------- In the else block ---------');
+
+                                          if (err.toString().startsWith('SocketException')) {
+                                            print('Connection Error : $err');
+
+                                            _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
+                                          }
+                                          setState(() {
+                                            spinner = false;
+                                          });
                                         }
-
-                                        setState(() {
-                                          spinner = false;
-                                        });
-                                      } else {
-                                        print('Error at submit button');
-                                        setState(() {
-                                          spinner = false;
-                                        });
                                       }
-
-//                                      _formKey2.currentState.save();
                                     },
                                   ),
                                 ),
@@ -245,8 +253,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: size.height * 0.25,
                   width: size.width * 0.44,
                   child: SvgPicture.asset(
-//                    "assets/svg/undraw_my_app_re_gxtj.svg",
-//                    "assets/svg/undraw_my_files_swob.svg",
                     "assets/svg/undraw_Reading_re_29f8.svg",
                     fit: BoxFit.cover,
                   ),
@@ -261,51 +267,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // TextField Widgets
   Widget _buildName() {
-    return Container(
-      height: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
         controller: _nameController,
-        decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Name is required';
           }
           return null;
         },
-//        onSaved: (String value) {
-//          _name = value;
-//        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+          ),
+          labelText: "Name",
+        ),
       ),
     );
   }
 
   Widget _buildUserName() {
-    return Container(
-      height: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
         controller: _usernameController,
         decoration: InputDecoration(
-          errorText: validate ? null : errorText,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+          ),
+          labelText: "Username",
         ),
-//        validator: (String value) {
-//          if (value.isEmpty) {
-//            return 'Username is required';
-//          }
-//          return null;
-//        },
-        onSaved: (String value) {
-//          _username = value;
-        },
       ),
     );
   }
 
   Widget _buildEmail() {
-    return Container(
-      height: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
         controller: _emailController,
-        decoration: InputDecoration(),
         validator: (String value) {
           if (value.isEmpty) {
             return 'Email is required';
@@ -315,37 +328,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
           }
           return null;
         },
-//        onSaved: (String value) {
-//          _email = value;
-//        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+          ),
+          labelText: "Email Address",
+        ),
       ),
     );
   }
 
   Widget _buildContact() {
-    return Container(
-      height: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
-        controller: _passwordController,
-        decoration: InputDecoration(),
+        controller: _contactController,
         validator: (String value) {
           if (value.isEmpty) {
             return 'Contact Number is required';
           }
           return null;
         },
-        onSaved: (String value) {
-//          _contact = value;
-        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+          ),
+          labelText: "Contact",
+        ),
       ),
     );
   }
 
   Widget _buildPassword() {
-    return Container(
-      height: 30,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: TextFormField(
-        controller: _contactController,
+        controller: _passwordController,
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Password is required';
+          }
+          if (value.length < 8) {
+            return 'Password must have 8 or more characters';
+          }
+          return null;
+        },
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
@@ -358,21 +397,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               });
             },
           ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blueGrey, width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blueGrey,
+              width: 2,
+            ),
+          ),
+          labelText: "Password",
         ),
         keyboardType: TextInputType.visiblePassword,
         obscureText: showPassword,
-        validator: (String value) {
-          if (value.isEmpty) {
-            return 'Password is required';
-          }
-          if (value.length < 8) {
-            return 'Password must have 8 or more characters';
-          }
-          return null;
-        },
-        onSaved: (String value) {
-//          _password = value;
-        },
       ),
     );
   }
@@ -380,70 +417,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildSignupForm() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.4,
-//        color: Colors.teal,
-      child: ListView(
-        padding: EdgeInsets.all(0),
-        scrollDirection: Axis.vertical,
-        children: [
-          Form(
-            key: _formKey2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Name',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: kTextLoginPageColor,
-                  ),
-                ),
-                _buildName(),
-                customYMargin(20),
-                Text(
-                  'Username',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: kTextLoginPageColor,
-                  ),
-                ),
-                _buildUserName(),
-                customYMargin(20),
-                Text(
-                  'Email',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: kTextLoginPageColor,
-                  ),
-                ),
-                _buildEmail(),
-                customYMargin(20),
-                Text(
-                  'Contact',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: kTextLoginPageColor,
-                  ),
-                ),
-                _buildContact(),
-                customYMargin(20),
-                Text(
-                  'Password',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: kTextLoginPageColor,
-                  ),
-                ),
-                _buildPassword(),
-              ],
-            ),
-          )
-        ],
+      child: Form(
+        key: _formKey2,
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildName(),
+              _buildUserName(),
+              _buildEmail(),
+              _buildContact(),
+              _buildPassword(),
+            ],
+          ),
+        ),
       ),
     );
   }

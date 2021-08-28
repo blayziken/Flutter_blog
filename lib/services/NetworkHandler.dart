@@ -18,11 +18,8 @@ class NetworkHandler {
       callUrl,
       headers: {"Authorization": "Bearer $token"},
     );
-    try {
-      return json.decode(response.body);
-    } catch (err) {
-      print(err);
-    }
+
+    return json.decode(response.body);
   }
 
   Future<http.Response> postData(String url, Map<String, String> body) async {

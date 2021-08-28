@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
+import 'package:blog_app/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,9 +19,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-//  String _username;
-//  String _password;
   bool showPassword = true;
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // TextField Form Key Controllers
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -76,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
@@ -118,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
-//                                letterSpacing: 1,
                                       color: Colors.blueGrey,
                                     ),
                                   ),
@@ -134,43 +135,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                   setState(() {
                                     spinner = true;
                                   });
+
                                   Map<String, String> body = {
                                     "username": _usernameController.text,
                                     "password": _passwordController.text,
                                   };
 
-                                  var response = await networkHandler.postData('users/login', body);
+                                  try {
+                                    var response = await networkHandler.postData('users/login', body);
 
-                                  if (response.statusCode == 200 || response.statusCode == 201) {
-                                    Map<String, dynamic> output = json.decode(response.body);
+                                    if (response.statusCode == 200 || response.statusCode == 201) {
+                                      Map<String, dynamic> output = json.decode(response.body);
 
-                                    print(output['token']);
-                                    await storage.write(key: "token", value: output['token']);
+                                      print(output['token']);
+                                      await storage.write(key: "token", value: output['token']);
 
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HomeScreen(),
-                                        ),
-                                        (route) => false);
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(),
+                                          ),
+                                          (route) => false);
 
+                                      setState(() {
+                                        validate = true;
+                                        spinner = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        validate = false;
+                                        spinner = false;
+                                      });
+                                      String output = json.decode(response.body);
+                                      print(output);
+
+                                      setState(() {
+                                        validate = false;
+                                        errorText = 'Username or Password is incorrect';
+                                      });
+                                    }
+                                  } catch (err) {
+                                    if (err.toString().startsWith('SocketException')) {
+                                      print('Connection Error : $err');
+
+                                      _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
+                                    }
                                     setState(() {
-                                      validate = true;
                                       spinner = false;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      validate = false;
-                                      spinner = false;
-                                    });
-                                    String output = json.decode(response.body);
-                                    print('--------- In the else block ---------');
-                                    print(output);
-                                    print('--------- In the else block ---------');
-
-                                    setState(() {
-                                      validate = false;
-                                      errorText = 'Username or Password is incorrect';
                                     });
                                   }
                                 },
@@ -237,16 +248,9 @@ class _LoginScreenState extends State<LoginScreen> {
 //                                      try {
 //                                        await onFBLogin();
 //                                      } catch (err) {
-//                                        print('khfjdf------fdf-d--');
 //                                        print(err);
 //                                        return;
 //                                      }
-//                                      Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                          builder: (context) => APITest(),
-//                                        ),
-//                                      );
 //                                    },
                                   ),
                                   customXMargin(30),
@@ -271,8 +275,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: size.height * 0.25,
                   width: size.width * 0.44,
                   child: SvgPicture.asset(
-//                    "assets/svg/undraw_my_app_re_gxtj.svg",
-//                    "assets/svg/undraw_my_files_swob.svg",
                     "assets/svg/undraw_Reading_re_29f8.svg",
                     fit: BoxFit.cover,
                   ),
@@ -294,15 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           errorText: validate ? null : errorText,
         ),
-//        validator: (String value) {
-//          if (value.isEmpty) {
-//            return 'Username is required';
-//          }
-//          return null;
-//        },
-        onSaved: (String value) {
-//          _username = value;
-        },
+        onSaved: (String value) {},
       ),
     );
   }
@@ -316,22 +310,6 @@ class _LoginScreenState extends State<LoginScreen> {
             flex: 15,
             child: TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(
-
-//              suffixIcon: IconButton(
-//                icon: Icon(
-//                  showPassword ? Icons.visibility_off : Icons.visibility,
-//                  color: kTextLoginPageColor,
-//                ),
-//                onPressed: () {
-//                  setState(
-//                    () {
-//                      showPassword = !showPassword;
-//                    },
-//                  );
-//                },
-//              ),
-                  ),
               keyboardType: TextInputType.visiblePassword,
               obscureText: showPassword,
               validator: (String value) {
@@ -340,9 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
                 return null;
               },
-              onSaved: (String value) {
-//          _password = value;
-              },
+              onSaved: (String value) {},
             ),
           ),
           Expanded(
@@ -369,7 +345,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Form(
       key: _formKey,
       child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(

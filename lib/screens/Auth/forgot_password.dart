@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/marginUtils.dart';
+import 'package:blog_app/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'components/forgotPassword_components.dart';
@@ -77,33 +78,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     "password": _passwordController.text,
                                   };
 
-                                  var updateResponse = await networkHandler.patchData('users/updateUser/${_usernameController.text}', body);
+                                  try {
+                                    var updateResponse = await networkHandler.patchData('users/updateUser/${_usernameController.text}', body);
 
-                                  if (updateResponse.statusCode == 200 || updateResponse.statusCode == 201) {
-                                    final snackBar = SnackBar(
-                                      content: Text('Password Updated Successfully'),
-                                      backgroundColor: Colors.red,
-                                    );
-                                    _scaffoldKey.currentState.showSnackBar(snackBar);
+                                    if (updateResponse.statusCode == 200 || updateResponse.statusCode == 201) {
+                                      _scaffoldKey.currentState.showSnackBar(snackBar('Password Updated Successfully'));
 
+                                      setState(() {
+                                        _spinner = false;
+                                      });
+
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => LoginScreen(),
+                                          ),
+                                          (route) => false);
+                                    } else {
+                                      setState(() {
+                                        _spinner = false;
+                                      });
+                                      String output = json.decode(updateResponse.body);
+                                      print('--------- In the else block ---------');
+                                      print(output);
+                                      print('--------- In the else block ---------');
+                                    }
+                                  } catch (err) {
+                                    if (err.toString().startsWith('SocketException')) {
+                                      print('Connection Error : $err');
+
+                                      _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
+                                    }
                                     setState(() {
                                       _spinner = false;
                                     });
-
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => LoginScreen(),
-                                        ),
-                                        (route) => false);
-                                  } else {
-                                    setState(() {
-                                      _spinner = false;
-                                    });
-                                    String output = json.decode(updateResponse.body);
-                                    print('--------- In the else block ---------');
-                                    print(output);
-                                    print('--------- In the else block ---------');
                                   }
                                 },
                               ),
