@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchProfileData();
   }
@@ -79,6 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               title: Text('New Story'),
               trailing: Icon(Icons.add),
+              onTap: () {
+                Navigator.pushNamed(context, '/add-blog');
+              },
             ),
             ListTile(
               title: Text('My Posts'),
