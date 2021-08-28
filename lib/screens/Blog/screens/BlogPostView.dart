@@ -38,9 +38,9 @@ class FullPostView extends StatelessWidget {
                   children: [
                     Text(
                       addBlogModel.title,
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                     ),
-                    customYMargin(10),
+                    customYMargin(20),
                     Text(
                       addBlogModel.body,
                       style: TextStyle(
@@ -58,6 +58,7 @@ class FullPostView extends StatelessWidget {
                 ),
               ),
 //            Spacer(),
+              customYMargin(30),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Row(

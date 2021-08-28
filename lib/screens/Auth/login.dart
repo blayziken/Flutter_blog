@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           width: double.infinity,
           height: size.height,
-          color: Colors.green,
+          color: Colors.blueGrey,
           child: Stack(
             children: [
               Positioned(
@@ -109,20 +109,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Column(
                             children: [
                               _buildLoginForm(),
-                              customYMargin(10),
+                              customYMargin(30),
                               Align(
                                 alignment: Alignment.centerRight,
-                                child: Text(
-                                  'Forgot password?',
-                                  style: TextStyle(
-//                                fontWeight: FontWeight.w700,
-                                    fontSize: 18,
+                                child: InkWell(
+                                  child: Text(
+                                    'Forgot password?',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
 //                                letterSpacing: 1,
-                                    color: kTextLoginPageColor,
+                                      color: Colors.blueGrey,
+                                    ),
                                   ),
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/forgot-password');
+                                  },
                                 ),
                               ),
-                              customYMargin(20),
+                              customYMargin(30),
                               LoginButton(
                                 showSpinner: spinner,
                                 onTap: () async {

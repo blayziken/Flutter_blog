@@ -75,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Container(
           width: double.infinity,
           height: size.height,
-          color: Colors.green,
+          color: Colors.blueGrey,
           child: Stack(
             children: [
               Positioned(
