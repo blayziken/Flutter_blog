@@ -154,6 +154,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       spinner = false;
                                     });
                                   } else {
+                                    setState(() {
+                                      validate = false;
+                                      spinner = false;
+                                    });
                                     String output = json.decode(response.body);
                                     print('--------- In the else block ---------');
                                     print(output);
