@@ -7,6 +7,7 @@ import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
 import 'package:blog_app/screens/Profile/EditProfile.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
+import 'package:blog_app/screens/Splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        currentScreen = LoginScreen();
+        currentScreen = SplashScreen();
       });
     }
   }
@@ -53,6 +54,9 @@ class _MyAppState extends State<MyApp> {
       ),
       home: currentScreen,
       routes: {
+        // Splash Screen
+        SplashScreen.routeName: (context) => SplashScreen(),
+
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),
         SignUpScreen.routeName: (context) => SignUpScreen(),
