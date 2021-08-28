@@ -1,4 +1,5 @@
 import 'package:blog_app/Model/AddBlogModel.dart';
+import 'package:blog_app/screens/Blog/screens/BlogPostView.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +60,7 @@ class BlogPostCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => FullPostView(),
+            builder: (context) => FullPostView(networkHandler: networkHandler, addBlogModel: addBlogModel),
           ),
         );
       },
