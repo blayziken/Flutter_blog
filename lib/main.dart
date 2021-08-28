@@ -1,7 +1,7 @@
+import 'package:blog_app/screens/Auth/forgot_password.dart';
 import 'package:blog_app/screens/Auth/login.dart';
 import 'package:blog_app/screens/Auth/signup.dart';
 import 'package:blog_app/screens/Blog/screens/AddBlog.dart';
-import 'package:blog_app/screens/Blog/screens/BlogPostView.dart';
 import 'package:blog_app/screens/Blog/screens/MyBlogPosts.dart';
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/screens/Profile/CreateProfile.dart';
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         // Auth Screens
         LoginScreen.routeName: (context) => LoginScreen(),
         SignUpScreen.routeName: (context) => SignUpScreen(),
+        ForgotPassword.routeName: (context) => ForgotPassword(),
 
         // Home
         HomeScreen.routeName: (context) => HomeScreen(),
