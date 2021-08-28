@@ -1,5 +1,4 @@
 import 'package:blog_app/Model/AddBlogModel.dart';
-import 'file:///C:/Users/Administrator/AndroidStudioProjects/blog_app/lib/screens/Blog/screens/BlogPostView.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class BlogPostCard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return InkWell(
       child: Container(
-        height: 200,
+        height: 300,
         padding: EdgeInsets.all(5),
         width: size.width,
         child: Card(
