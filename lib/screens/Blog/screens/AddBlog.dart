@@ -105,7 +105,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
           ),
           labelText: "......",
         ),
-        minLines: 4,
+        minLines: 20,
         maxLines: null,
       ),
     );
@@ -152,50 +152,54 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                     "body": _bodyController.text,
                   };
 
-                  // POST RESPONSE
-                  var response = await networkHandler.postData('posts/add', body);
+                  try {
+                    // POST RESPONSE
+                    var response = await networkHandler.postData('posts/add', body);
 
-                  if (response.statusCode == 200 || response.statusCode == 201) {
-                    // GETTING THIS POST ID FROM THE RESPONSE BODY SO I CAN PATCH THE COVER IMAGE
-                    var postId = json.decode(response.body)["data"]["postId"];
+                    if (response.statusCode == 200 || response.statusCode == 201) {
+                      // GETTING THIS POST ID FROM THE RESPONSE BODY SO I CAN PATCH THE COVER IMAGE
+                      var postId = json.decode(response.body)["data"]["postId"];
 
-                    var imageResponse = await networkHandler.patchImage('posts/$postId/addCoverImage', _imageFile.path);
+                      var imageResponse = await networkHandler.patchImage('posts/$postId/addCoverImage', _imageFile.path);
 
-                    if (imageResponse.statusCode == 200 || response.statusCode == 201) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ),
-                          (route) => false);
+                      if (imageResponse.statusCode == 200 || response.statusCode == 201) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                            (route) => false);
+                      }
+                      if (imageResponse.statusCode == 404) {
+                        setState(() {
+                          _spinner = false;
+                        });
+
+                        return _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong...Try again'));
+                      }
                     }
-                    if (imageResponse.statusCode == 404) {
+
+                    if (response.statusCode == 404) {
                       setState(() {
                         _spinner = false;
                       });
 
                       return _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong...Try again'));
                     }
-                  } else {
+                  } catch (err) {
+                    if (err.toString().contains('SocketException')) {
+                      print('Connection Error : $err');
+
+                      _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
+                    }
                     setState(() {
                       _spinner = false;
                     });
-                    print(response);
-                    print(HttpClientResponse);
-                  }
-
-                  if (response.statusCode == 404) {
-                    setState(() {
-                      _spinner = false;
-                    });
-
-                    return _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong...Try again'));
                   }
                 } else {
                   setState(() {
                     _spinner = false;
                   });
-                  print('Error: Add Blog Button - Blog not added!!!');
                 }
               },
             ),
