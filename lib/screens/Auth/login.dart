@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // User validation variables
   String errorText;
+  String errorText2;
   bool validate = true;
   bool spinner = false;
 
@@ -141,6 +142,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                     "password": _passwordController.text,
                                   };
 
+                                  if (_usernameController.text == '' || _passwordController.text == '') {
+                                    setState(() {
+                                      validate = false;
+                                      spinner = false;
+
+                                      errorText = 'Field Cannot be Empty!';
+                                      errorText2 = 'Field Cannot be Empty!';
+                                    });
+                                  }
+
                                   try {
                                     var response = await networkHandler.postData('users/login', body);
 
@@ -166,15 +177,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                         validate = false;
                                         spinner = false;
                                       });
-                                      String output = json.decode(response.body);
-                                      print(output);
 
-                                      setState(() {
-                                        validate = false;
-                                        errorText = 'Username or Password is incorrect';
-                                      });
+                                      _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong'));
+
+                                      String output = json.decode(response.body);
+
+                                      if (output == 'Username does not exist') {
+                                        setState(() {
+                                          validate = false;
+                                          errorText = output;
+                                        });
+                                      } else if (output == 'Password is incorrect') {
+                                        setState(() {
+                                          validate = false;
+                                          errorText2 = output;
+                                        });
+                                      }
                                     }
                                   } catch (err) {
+                                    print(err);
                                     if (err.toString().startsWith('SocketException')) {
                                       print('Connection Error : $err');
 
@@ -312,6 +333,9 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: _passwordController,
               keyboardType: TextInputType.visiblePassword,
               obscureText: showPassword,
+              decoration: InputDecoration(
+                errorText: validate ? null : errorText2,
+              ),
               validator: (String value) {
                 if (value.isEmpty) {
                   return 'Password is required';
@@ -355,8 +379,9 @@ class _LoginScreenState extends State<LoginScreen> {
               color: kTextLoginPageColor,
             ),
           ),
+          customYMargin(10),
           _buildUserName(),
-          customYMargin(20),
+          customYMargin(30),
           Text(
             'Password',
             style: TextStyle(
@@ -365,6 +390,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: kTextLoginPageColor,
             ),
           ),
+          customYMargin(10),
           _buildPassword(),
         ],
       ),

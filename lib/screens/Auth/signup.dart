@@ -122,15 +122,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Expanded(
                                   flex: 0,
                                   child: GestureDetector(
-                                    child: spinner
-                                        ? CircularProgressIndicator()
-                                        : Container(
-                                            height: 60,
-                                            decoration: BoxDecoration(
-                                              color: Colors.blueGrey[900],
-                                              borderRadius: BorderRadius.circular(20.0),
-                                            ),
-                                            child: Center(
+                                    child: Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors.blueGrey[900],
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: spinner
+                                          ? CircularProgressIndicator()
+                                          : Center(
                                               child: Text(
                                                 'CREATE ACCOUNT',
                                                 style: TextStyle(
@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                    ),
                                     onTap: () async {
                                       setState(() {
                                         spinner = true;
@@ -184,7 +184,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
                                             }
                                           }
+
+                                          if (responseRegister.statusCode == 500) {
+                                            print(responseRegister.body);
+                                            _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Please try again'));
+                                            setState(() {
+                                              spinner = false;
+                                            });
+                                          }
                                         } catch (err) {
+                                          print(err);
                                           if (err.toString().contains('SocketException')) {
                                             print('AAAA');
                                             setState(() {
@@ -202,12 +211,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           });
                                         }
                                       }
+
+                                      setState(() {
+                                        spinner = false;
+                                      });
                                     },
                                   ),
                                 ),
-                                customYMargin(10),
+//                                customYMargin(10),
                                 Expanded(
-                                  flex: 0,
+                                  flex: 1,
                                   child: Center(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -299,6 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: TextFormField(
         controller: _usernameController,
         decoration: InputDecoration(
+          errorText: validate ? null : errorText,
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blueGrey, width: 2),
           ),
@@ -324,6 +338,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             return 'Email is required';
           }
           if (!value.contains('@')) {
+            return 'Invalid Email';
+          }
+          if (!value.contains('.com')) {
             return 'Invalid Email';
           }
           return null;

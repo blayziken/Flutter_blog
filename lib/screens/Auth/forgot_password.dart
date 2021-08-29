@@ -98,6 +98,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       setState(() {
                                         _spinner = false;
                                       });
+                                      _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong'));
+
                                       String output = json.decode(updateResponse.body);
                                       print('--------- In the else block ---------');
                                       print(output);

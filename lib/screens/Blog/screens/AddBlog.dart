@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/marginUtils.dart';
+import 'package:blog_app/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -137,11 +139,11 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                 });
 
                 if (_imageFile == null) {
-                  final snackBar4 = SnackBar(
-                    content: Text('Cover Image Needed'),
-                    backgroundColor: Colors.red,
-                  );
-                  return _scaffoldKey.currentState.showSnackBar(snackBar4);
+                  setState(() {
+                    _spinner = false;
+                  });
+
+                  return _scaffoldKey.currentState.showSnackBar(snackBar('Cover Image Needed'));
                 }
 
                 if (_imageFile != null && _formKey.currentState.validate()) {
@@ -172,12 +174,14 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                         _spinner = false;
                       });
 
-                      final snackBar5 = SnackBar(
-                        content: Text('Something went wrong...Try again'),
-                        backgroundColor: Colors.red,
-                      );
-                      return _scaffoldKey.currentState.showSnackBar(snackBar5);
+                      return _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong...Try again'));
                     }
+                  } else {
+                    setState(() {
+                      _spinner = false;
+                    });
+                    print(response);
+                    print(HttpClientResponse);
                   }
 
                   if (response.statusCode == 404) {
@@ -185,13 +189,12 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                       _spinner = false;
                     });
 
-                    final snackBar3 = SnackBar(
-                      content: Text('Something went wrong...Try again'),
-                      backgroundColor: Colors.red,
-                    );
-                    return _scaffoldKey.currentState.showSnackBar(snackBar3);
+                    return _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong...Try again'));
                   }
                 } else {
+                  setState(() {
+                    _spinner = false;
+                  });
                   print('Error: Add Blog Button - Blog not added!!!');
                 }
               },
@@ -202,6 +205,7 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Colors.white54,
         elevation: 0,
