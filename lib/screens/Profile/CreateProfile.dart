@@ -69,8 +69,8 @@ class _CreateProfileState extends State<CreateProfile> {
                   Map<String, String> body = {
                     "name": _nameController.text,
                     "profession": _professionController.text,
-                    "dob": _dobController.text,
-                    "title": _titleController.text,
+                    "DOB": _dobController.text,
+                    "titleline": _titleController.text,
                     "about": _aboutController.text,
                   };
 
@@ -83,24 +83,32 @@ class _CreateProfileState extends State<CreateProfile> {
                   if (response.statusCode == 200 || response.statusCode == 201) {
                     print('Ok');
                     if (_imageFile != null) {
-                      var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path);
-                      if (imageResponse.statusCode == 200) {
-                        setState(() {
-                          _spinner = false;
+                      try {
+                        var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path).catchError((err) {
+                          print('asdsd');
+                          print(err);
+                          print('asdsd');
                         });
-                      }
-                    } else {
-                      setState(() {
-                        _spinner = false;
-                      });
-                    }
 
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
-                        ),
-                        (route) => false);
+                        if (imageResponse.statusCode == 200) {
+                          print('Ok-200');
+
+                          setState(() {
+                            _spinner = false;
+                          });
+                        }
+                      } catch (err) {
+                        print('catch');
+                        print(err);
+                      }
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                          ),
+                          (route) => false);
+                    }
                   }
                 }
               },
