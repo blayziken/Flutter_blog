@@ -15,14 +15,14 @@ class BlogPostCard extends StatelessWidget {
     return InkWell(
       child: Container(
         height: 300,
-        padding: EdgeInsets.all(5),
-        width: size.width,
+//        padding: EdgeInsets.all(25),
+        width: double.infinity,
         child: Card(
           child: Stack(
             children: [
               Container(
-                height: size.height,
-                width: size.width,
+//                height: size.height,
+//                width: size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: networkHandler.getCoverImage(addBlogModel.id),
@@ -33,20 +33,18 @@ class BlogPostCard extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  padding: EdgeInsets.all(8),
                   height: 55,
-                  width: size.width,
+                  width: size.width * 0.95,
                   decoration: BoxDecoration(
                     color: Colors.white,
-//                borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                     child: Text(
                       addBlogModel.title,
                       style: TextStyle(
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
-                        fontSize: 18,
+                        fontSize: 22,
                       ),
                     ),
                   ),

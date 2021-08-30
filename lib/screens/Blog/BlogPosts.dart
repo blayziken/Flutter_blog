@@ -43,13 +43,15 @@ class _BlogPostsState extends State<BlogPosts> {
   Widget build(BuildContext context) {
     return _spinner
         ? Center(
-            child: CircularProgressIndicator(),
-          )
+            child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            backgroundColor: Colors.blueGrey,
+          ))
         : data.length > 0
             ? Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(10.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: data
                       .map((item) => Column(
                             children: [
@@ -57,7 +59,7 @@ class _BlogPostsState extends State<BlogPosts> {
                                 networkHandler: networkHandler,
                                 addBlogModel: item,
                               ),
-                              customYMargin(30),
+                              customYMargin(20),
                             ],
                           ))
                       .toList(),
@@ -74,3 +76,33 @@ class _BlogPostsState extends State<BlogPosts> {
 //child: CircularProgressIndicator(),
 //)
 //:
+
+//@override
+//Widget build(BuildContext context) {
+//  return _spinner
+//      ? Center(
+//    child: CircularProgressIndicator(),
+//  )
+//      : data.length > 0
+//      ? Padding(
+//    padding: EdgeInsets.all(20.0),
+//    child: Column(
+//      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//      children: data
+//          .map((item) => Column(
+//        children: [
+//          BlogPostCard(
+//            networkHandler: networkHandler,
+//            addBlogModel: item,
+//          ),
+//          customYMargin(30),
+//        ],
+//      ))
+//          .toList(),
+//    ),
+//  )
+//      : Center(
+//    child: Text('No Blog Posts Yet'),
+//  );
+//}
+//}

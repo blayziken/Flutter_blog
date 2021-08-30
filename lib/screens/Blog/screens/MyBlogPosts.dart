@@ -13,9 +13,11 @@ class MyBlogPosts extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.blueGrey,
       ),
-      body: SingleChildScrollView(
-        child: BlogPosts(
-          url: "posts/myBlogPosts",
+      body: Container(
+        child: SingleChildScrollView(
+          child: BlogPosts(
+            url: "posts/myBlogPosts",
+          ),
         ),
       ),
     );
