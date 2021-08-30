@@ -21,7 +21,7 @@ class ImageAndNameDetails extends StatelessWidget {
           flex: 4,
           child: Center(
             child: CircleAvatar(
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.grey,
               radius: 130,
               backgroundImage: NetworkHandler().getImage(profileModel.username), //AssetImage("assets/images/undraw_Reading_re_29f8.png"),
             ),

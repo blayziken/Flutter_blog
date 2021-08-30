@@ -138,7 +138,8 @@ class NoProfileDrawer extends StatelessWidget {
                   backgroundColor: Colors.grey,
                   child: Icon(
                     FontAwesomeIcons.snowman,
-                    size: 30,
+                    size: 70,
+                    color: Colors.black,
                   ),
                 ),
               ),
