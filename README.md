@@ -1,11 +1,11 @@
 # Bloggy...
 
-# Tools
+## Tools
     * Flutter
     * NodeJS (Express)
     * MongoDB
 
-# Dependencies
+## Dependencies
     * flutter_svg
     * http
     * logger
@@ -19,23 +19,23 @@
     * build_runner
     * json_serializable
 
-# Splash Screen
+## Splash Screen
 
-# Auth Screens
+## Auth Screens
 
-# Home Screen
+## Home Screen
 
-# Drawer
+## Drawer
 
-# Profile Screens
+## Profile Screens
 
-# Add Blog Post
+## Add Blog Post
 
-# Blog Posts
+## Blog Posts
 
-# My Blog Posts
+## My Blog Posts
 
-# View Post
+## View Post
 
 # What's Next?
   [] Delete Posts
