@@ -38,6 +38,6 @@
 ## View Post
 
 # What's Next?
-  [] Delete Posts
-  [] Pull to refresh
-  [] Google Authentication
+    - [] Delete Posts
+    - [] Pull to refresh
+    - [] Google Authentication
