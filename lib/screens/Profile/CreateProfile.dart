@@ -172,7 +172,6 @@ class _CreateProfileState extends State<CreateProfile> {
       controller: _professionController,
       validator: (value) {
         if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -202,7 +201,6 @@ class _CreateProfileState extends State<CreateProfile> {
       controller: _dobController,
       validator: (value) {
         if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -232,7 +230,6 @@ class _CreateProfileState extends State<CreateProfile> {
       controller: _titleController,
       validator: (value) {
         if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -262,7 +259,6 @@ class _CreateProfileState extends State<CreateProfile> {
       controller: _aboutController,
       validator: (value) {
         if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       maxLines: 4,

@@ -147,15 +147,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       child: TextFormField(
         controller: _usernameController,
         decoration: InputDecoration(),
-//        validator: (String value) {
-//          if (value.isEmpty) {
-//            return 'Username is required';
-//          }
-//          return null;
-//        },
-        onSaved: (String value) {
-//          _username = value;
-        },
       ),
     );
   }
@@ -169,22 +160,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             flex: 15,
             child: TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(
-
-//              suffixIcon: IconButton(
-//                icon: Icon(
-//                  showPassword ? Icons.visibility_off : Icons.visibility,
-//                  color: kTextLoginPageColor,
-//                ),
-//                onPressed: () {
-//                  setState(
-//                    () {
-//                      showPassword = !showPassword;
-//                    },
-//                  );
-//                },
-//              ),
-                  ),
               keyboardType: TextInputType.visiblePassword,
               obscureText: showPassword,
               validator: (String value) {
@@ -222,7 +197,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Form(
       key: _formKey,
       child: Column(
-//                            mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(

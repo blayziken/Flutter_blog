@@ -170,8 +170,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: _nameController,
       validator: (value) {
-//        if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -200,8 +198,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: _professionController,
       validator: (value) {
-//        if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -230,8 +226,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: _dobController,
       validator: (value) {
-//        if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -260,8 +254,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: _titleController,
       validator: (value) {
-//        if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       decoration: InputDecoration(
@@ -290,8 +282,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return TextFormField(
       controller: _aboutController,
       validator: (value) {
-//        if (value.isEmpty) return "Field cannot be empty";
-
         return null;
       },
       maxLines: 4,

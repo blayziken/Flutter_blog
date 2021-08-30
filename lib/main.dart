@@ -8,8 +8,8 @@ import 'package:blog_app/screens/Profile/CreateProfile.dart';
 import 'package:blog_app/screens/Profile/EditProfile.dart';
 import 'package:blog_app/screens/Profile/ProfileScreen.dart';
 import 'package:blog_app/screens/Splash.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());

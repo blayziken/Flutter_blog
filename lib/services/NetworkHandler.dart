@@ -32,7 +32,6 @@ class NetworkHandler {
       headers: {"Content-type": "application/json", "Authorization": "Bearer $token"},
     );
 
-//    print(response.body);
     return (response);
   }
 
@@ -74,5 +73,4 @@ class NetworkHandler {
 
     return (response);
   }
-// http://192.168.43.41:8000/
 }
