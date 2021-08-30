@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:blog_app/screens/Home/Home.dart';
 import 'package:blog_app/services/NetworkHandler.dart';
 import 'package:blog_app/utils/marginUtils.dart';
