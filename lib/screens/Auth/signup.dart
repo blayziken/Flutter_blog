@@ -128,10 +128,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         color: Colors.blueGrey[900],
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: spinner
-                                          ? CircularProgressIndicator()
-                                          : Center(
-                                              child: Text(
+                                      child: Center(
+                                        child: spinner
+                                            ? CircularProgressIndicator()
+                                            : Text(
                                                 'CREATE ACCOUNT',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -140,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   color: Colors.white,
                                                 ),
                                               ),
-                                            ),
+                                      ),
                                     ),
                                     onTap: () async {
                                       setState(() {
