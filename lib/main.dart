@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        currentScreen = LoginScreen(); //SplashScreen();
+        currentScreen = SplashScreen();
       });
     }
   }

@@ -15,19 +15,6 @@ AppBar buildHomeAppBar(titleString, currentState, context) {
     title: Text(titleString[currentState]),
     backgroundColor: Colors.blueGrey,
     centerTitle: true,
-    actions: [
-      IconButton(
-        icon: Icon(Icons.add_alert),
-        onPressed: () async {
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//              builder: (context) => MainProfileScreen(),
-//            ),
-//          );
-        },
-      ),
-    ],
   );
 }
 

@@ -39,11 +39,34 @@ class FullPostView extends StatelessWidget {
                     child: Card(
                       child: Container(
                         width: double.infinity,
-                        height: 40,
-                        child: Center(
-                          child: Text(
-                            addBlogModel.title,
-                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                        height: 65,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5.0, left: 5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                addBlogModel.title,
+                                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                              ),
+                              customYMargin(10),
+                              Row(
+                                children: [
+                                  Icon(Icons.chat_bubble, size: 15, color: Colors.grey),
+                                  customXMargin(7),
+                                  Text('0'),
+                                  customXMargin(15),
+                                  Icon(Icons.thumb_up, size: 15, color: Colors.grey),
+                                  customXMargin(7),
+                                  Text('0'),
+                                  customXMargin(15),
+                                  Icon(Icons.share, size: 15, color: Colors.grey),
+                                  customXMargin(7),
+                                  Text('0'),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -63,29 +86,6 @@ class FullPostView extends StatelessWidget {
                   ),
                 ],
               ),
-//            Spacer(),
-              customYMargin(30),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Likes: ',
-                      style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-                    ),
-                    Text(
-                      'Comments: ',
-                      style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-                    ),
-                    Text(
-                      'Shares: ',
-                      style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-                    ),
-                  ],
-                ),
-              ),
-              customYMargin(10),
             ],
           ),
         ),
