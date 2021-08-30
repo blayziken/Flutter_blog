@@ -197,7 +197,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   } catch (err) {
                                     print(err);
                                     if (err.toString().contains('SocketException')) {
-
                                       _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
                                     }
                                     setState(() {

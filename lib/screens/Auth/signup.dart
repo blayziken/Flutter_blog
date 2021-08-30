@@ -199,7 +199,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           }
 
                                           if (err.toString().startsWith('SocketException')) {
-
                                             _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
                                           }
                                           setState(() {

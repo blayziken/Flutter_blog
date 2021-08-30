@@ -63,8 +63,7 @@ class HomeDrawer extends StatelessWidget {
           ListTile(
             title: Text('All Posts'),
             trailing: Icon(Icons.launch),
-            onTap: () {
-            },
+            onTap: () {},
           ),
           ListTile(
             title: Text('New Story'),
