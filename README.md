@@ -24,15 +24,6 @@
 ## Auth Screens
 
 ## Home Screen
-# Project Name
-Project Description
-
-### Column Name
-- [ ] Task title ~3d #type @name yyyy-mm-dd  
-  - [ ] Sub-task or description  
-
-### Completed Column ✓
-- [x] Completed task title  
 
 ## Drawer
 
@@ -47,6 +38,9 @@ Project Description
 ## View Post
 
 ## What's Next?
-	-  [ x ]  Delete Posts
-	- [ ] Pull to refresh
-	- [ ]   Google Authentication
+- [ ] Delete Posts
+- [ ] Pull to refresh 
+- [ ] Google Authentication 
+  - [ ] Sign-in 
+  - [ ] Sign-up
+  - [ ] Forgot Password
