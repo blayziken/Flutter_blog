@@ -35,10 +35,9 @@
 
 ## My Blog Posts
 
-#### View Post
+## View Post
 
-### What's Next?
--  [ x ]  Delete Posts
-	
-[ ]Pull to refresh
-    [] Google Authentication
+## What's Next?
+	-  [ x ]  Delete Posts
+	- [ ] Pull to refresh
+	- [ ]   Google Authentication
