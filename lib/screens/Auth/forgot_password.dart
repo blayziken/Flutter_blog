@@ -101,14 +101,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                       _scaffoldKey.currentState.showSnackBar(snackBar('Something went wrong'));
 
                                       String output = json.decode(updateResponse.body);
-                                      print('--------- In the else block ---------');
                                       print(output);
-                                      print('--------- In the else block ---------');
                                     }
                                   } catch (err) {
                                     if (err.toString().contains('SocketException')) {
-                                      print('Connection Error : $err');
-
                                       _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
                                     }
                                     setState(() {

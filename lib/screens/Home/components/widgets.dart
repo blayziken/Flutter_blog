@@ -41,10 +41,6 @@ class HomeDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (profileModel == null) {
-      print('NUll Null Null Null');
-//      username = ''
-    }
     return Drawer(
       elevation: 0,
       child: ListView(
@@ -68,7 +64,6 @@ class HomeDrawer extends StatelessWidget {
             title: Text('All Posts'),
             trailing: Icon(Icons.launch),
             onTap: () {
-              print('aa');
             },
           ),
           ListTile(
@@ -100,7 +95,6 @@ class HomeDrawer extends StatelessWidget {
             ),
             trailing: Icon(Icons.logout),
             onTap: () async {
-              print('Logout');
               await storage.delete(key: "token");
               Navigator.pushAndRemoveUntil(
                   context,

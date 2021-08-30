@@ -94,12 +94,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 var response = await networkHandler.patchData('profiles/update', body);
 
                 if (response.statusCode == 200 || response.statusCode == 201) {
-                  print('Updated Profile');
                   if (_imageFile != null) {
                     var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path).catchError((err) {
-                      print('asdsd');
                       print(err);
-                      print('asdsd');
                     });
 
                     if (imageResponse.statusCode == 200) {

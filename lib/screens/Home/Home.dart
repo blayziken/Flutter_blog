@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icon(Icons.person),
                         color: currentState == 1 ? Colors.white : Colors.white54,
                         onPressed: () {
-                          print('a');
                           setState(() {
                             currentState = 1;
                           });

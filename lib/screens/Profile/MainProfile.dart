@@ -44,7 +44,6 @@ class _MainProfileScreenState extends State<MainProfileScreen> {
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () {
-              print('Edit');
               Navigator.pushNamed(context, '/edit-profile');
             },
             color: Colors.black,

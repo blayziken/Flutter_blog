@@ -65,8 +65,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (err) {
       if (err.toString().startsWith('SocketException')) {
-        print('Connection Error : $err');
-
         _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
       }
       setState(() {
@@ -195,14 +193,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         } catch (err) {
                                           print(err);
                                           if (err.toString().contains('SocketException')) {
-                                            print('AAAA');
                                             setState(() {
                                               spinner = false;
                                             });
                                           }
 
                                           if (err.toString().startsWith('SocketException')) {
-                                            print('Connection Error : $err');
 
                                             _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
                                           }

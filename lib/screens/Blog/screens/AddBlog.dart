@@ -70,7 +70,6 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
               color: Colors.teal,
             ),
             onPressed: () {
-              print('take photo');
               takeCoverPhoto();
             },
           ),
@@ -186,8 +185,6 @@ class _AddBlogScreenState extends State<AddBlogScreen> {
                     }
                   } catch (err) {
                     if (err.toString().contains('SocketException')) {
-                      print('Connection Error : $err');
-
                       _scaffoldKey.currentState.showSnackBar(snackBar('Connection Error: Check your Internet Connection'));
                     }
                     setState(() {

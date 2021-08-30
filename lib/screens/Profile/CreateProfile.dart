@@ -81,24 +81,18 @@ class _CreateProfileState extends State<CreateProfile> {
 //                    }
 
                   if (response.statusCode == 200 || response.statusCode == 201) {
-                    print('Ok');
                     if (_imageFile != null) {
                       try {
                         var imageResponse = await networkHandler.patchImage('profiles/add/image', _imageFile.path).catchError((err) {
-                          print('asdsd');
                           print(err);
-                          print('asdsd');
                         });
 
                         if (imageResponse.statusCode == 200) {
-                          print('Ok-200');
-
                           setState(() {
                             _spinner = false;
                           });
                         }
                       } catch (err) {
-                        print('catch');
                         print(err);
                       }
 
