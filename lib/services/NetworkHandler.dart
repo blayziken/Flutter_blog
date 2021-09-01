@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class NetworkHandler {
-//  String baseURL = 'https://bloggy-backend-api.herokuapp.com';
-  String baseURL = 'http://192.168.43.41:8000';
+  String baseURL = 'https://bloggy-backend-api.herokuapp.com';
+//  String baseURL = 'http://192.168.43.41:8000';
 
   // Getting token from storage
   FlutterSecureStorage storage = FlutterSecureStorage();
